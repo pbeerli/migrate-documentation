@@ -1,0 +1,69 @@
+\documentclass[landscape]{foils} 
+\usepackage{tabularx,dcolumn, graphicx, amsfonts,amsmath}  
+\usepackage[sectionbib]{natbib}
+\usepackage{picinpar}
+\setlength{\voffset}{-0.5in}
+\setlength{\textheight}{7in}
+\setlength{\parindent}{0pt}
+\DeclareMathSymbol{\expect}{\mathalpha}{AMSb}{'105}
+\def\p{\rm p}
+\def\pp{\rm P}
+\newcommand{\section}{\secdef \newsection\newsection}
+\renewcommand{\labelitemi}{\includegraphics[width=5mm]{images/bullet.pdf}}
+\newcommand{\newsection}[1]{%
+	{\par\flushleft\large\sf\bfseries #1\\\rule[0.7\baselineskip]{\textwidth}{0.5mm}\par}}
+
+\newcommand{\subsection}{\secdef \test\test}
+\newcommand{\test}[1]{%
+	{\par\flushleft\normalsize\sf\bfseries #1: }}
+\newcommand{\M}{\mathcal{M}}
+\newcommand{\prob}{{\rm Prob~}}
+\def\showy#1{{\normalsize\sf\bfseries #1}}
+\def\donotuse#1{}
+
+\newcommand{\entrylabel}[1]{\mbox{#1}\hfil}
+\newenvironment{entry}
+	{\begin{list}{}%
+		{\renewcommand{\makelabel}{\entrylabel}%
+		\setlength{\labelwidth}{35pt}%
+		\setlength{\leftmargin}{\labelwidth+\labelsep}%
+	}%
+	{\end{list}}}
+% this are commands that come with the color package
+
+\usepackage{color}
+\pagestyle{empty}
+%define colors
+\definecolor{mediumblue}{rgb}{0.0509,0.35,0.568}
+\definecolor{blue}{rgb}{0.0109,0.15,0.468}
+\definecolor{lightblue}{rgb}{0.81176,0.92549,0.9333}
+\definecolor{white}{rgb}{1.0,1.0,1.0}
+\definecolor{yellow}{rgb}{0.961,0.972,0.047}
+\definecolor{red}{rgb}{0.9,0.1,0.1}
+\definecolor{orange}{rgb}{1.0,0.4,0.0}
+
+
+% sets backgroundcolor for whole document 
+\pagecolor{white}
+% sets text color
+\color{black}
+% see below for an example how to change just a few words
+% using \textcolor{color}{text}
+
+\font \riesig=cmssbx10 scaled 13000
+\font \gigant=cmssbx10 scaled 12000
+\font \gross=cmssbx10 scaled 7000
+\font \mittel=cmssbx10 scaled 5000
+\font \courier=pcrb scaled 2000
+\begin{document}
+%\setlength{\tabcolsep}{30pt}
+\begin{tabular}{r l r r r r r r p{5cm} }
+%\multicolumn{1}{c}{Computer} &                     \multicolumn{2}{c}{Population sizes}\\
+%\cline{2-3}
+%& \multicolumn{1}{c}{-10000 generations}       &  \multicolumn{1}{c}{Present}\\
+Nodes &  Version & CPUs & Cores & DNA & msat & iam & hap & Computer\\
+\hline
+3 & 3.2.12 & 1 & 2 & 409s & 117s & 24s & 631s & {Macbook Pro, MacOS 10.6.7, 2.16 GHz, Memory 4Gb; Core 2 Duo} \\
+\end{tabular}
+
+\end{document}

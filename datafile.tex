@@ -1,0 +1,575 @@
+\def\startformatted{%
+\begin{flushleft}
+\begin{small}
+\begin{tt}}
+
+\def\endformatted{%
+\end{tt}
+\end{small}
+\end{flushleft}
+}%
+
+\chapter{Data file specification}
+\unitlength=1mm
+\begin{picture}(0,0)(0,0)
+\put(110,-12){\includegraphics[width=6cm]{mim/read}}
+\end{picture}
+
+\myabstract{In detail specification of the data format, without reading and using this information your analysis will most likely faulty.} 
+
+The data needs to be in  a certain form; for us, the following formats were most convenient, but you need to edit your data into this form.
+There are some programs that can write \migrate files, for example the  program \textsc{MSAanalyzer} \citep{dieringer:2003} that can generate \migrate datafiles from excel spread sheets for microsatellite data. The following formats are discussed in detail:
+\begin{itemize}
+  \item DNA or RNA sequence data (single locus and multilocus)
+  \item Single nucleotide polymorphism data (two formats)
+  \item Microsatellite marker data (\migrate uses {\bf REPEATNUMBERS by DEFAULT!!!!!!!})
+  \item Allozyme data (or other infinite allele mutation model marker)
+\end{itemize}
+\vskip 1cm
+\section*{General data format}
+Syntax: a token is either a word, a collection of words, or a character or a number:
+\begin{description}
+\item{$<token>$} the token between the the ``angle-brackets" is obligatory
+\item{$\left[token\right]$} in square brackets are optional.
+\item{$\left\{token\right\}$} are obligatory for some 
+\item{$<token1 | token2>$} choose one of the token kind of data.
+If this is too abstract, look at the examples further down.
+\end{description}
+A range of numbers in a ``word" token as in $<${\tt individual1 10-10}$>$
+means that this token needs to be 10 characters long. The characters for
+any word token can normally include special characters, punctuation, and spaces, the token for the individual name ``{\tt Ind1  02 @}" is legal. An explanation of the individual parts follows at the end of this section.
+The most common data file for allozyme data or microsatellite data
+would look like this (examples follow):
+\smallskip
+\begin{small}
+\begin{tt}
+\begin{verbatim}
+<Number of populations> <number of loci> {delimiter between alleles} [project title 0-79]
+{#@M <msat1-repeatlength> <msat2-repeatlength> .....}
+<Number of individuals> <title for population 0-79>
+<Individual 1 10-10> <data>
+<Individual 2 10-10> <data>
+....
+<Number of individuals> <title for population 0-79>
+<Individual 1 10-10> <data>
+<Individual2 10-10> <data>
+....
+\end{verbatim}
+\end{tt}
+\end{small}
+The delimiter is needed for microsatellite data and the project title is optional.  The line starting with {\tt \#@M}  is not necessary when the data consists of allozyme data or microsat repeat numbers. The line allows to automatically calculate the number of repeats from the fragment length.   The {\tt data}
+will be described in the following sections. \textbf{The population name must start with a alphabetical character (not a number). The individual name has to be  10 characters by default} (same as in PHYLIP), but can be changed to another constant in the parmfile, even to a length of 0.
+[This is one of the most common errors, make sure that your individual names are 10 characters, it does not matter whether they are all alphanumeric, spaces are fine]
+\par
+For sequences or SNPs, the syntax is slightly different, the following case 
+is for non-interleaved sequence data.
+ \begin{small}
+\begin{tt}
+\begin{verbatim}
+<Number of populations> <number of loci> [project title 0-79]
+<number of sites for locus1> <number of sites for locus 2> ...
+<Number of individuals locus1> <#ind locus 2> ... <#ind loc n> <title for population 0-79>
+<Individual 1 10-10> <data locus 1>
+<Individual 2 10-10> <data locus 1>
+....
+<Individual 1 10-10> <data locus 2>
+<Individual 2 10-10> <data locus 2>
+....
+<Number of individuals>  <#ind locus 2> ... <#ind loc n>  <title for population 0-79>
+<Individual 1 10-10> <data locus 1>
+<Individual 2 10-10> <data locus 1>
+....
+<Individual 1 10-10> <data locus 2>
+<Individual 2 10-10> <data locus 2>
+....
+\end{verbatim}
+\end{tt}
+\end{small}
+%Earlier versions of MIGRATE (before 1.5.2) would not allow to have different numbers of individuals for different loci and its syntax was:
+%\begin{verbatim}
+%<Number of individuals> <title for population 0-79>
+%\end{verbatim}
+For each locus one can give different number of individuals, if there is only one number then the program assumes that all loci have the same number of individuals. If there a fewer numbers than loci
+the last number will substitute for the number of individuals at the other loci. It is important that the population name does not start with a number!
+\smallskip
+\migrate version older than 4.0 supported interleaved sequence formats, Ivstopped supporting this and have therefore removed its description, reformat your data to a non-interleaved format before you translate it into the \migrate format. I typically use \textsc{Paup*} \cite{swofford2003} to export a non-interleaved \phylip formatted datafile and use that to change into the \migrate format.
+%Interleaved sequence data [IMPORTANT, do no add blank lines into the infile, \migrate\ will choke on those, although they will run in other programs]:
+%\smallskip
+%\begin{small}
+%\begin{tt}
+%\begin{verbatim}
+%<Number of populations> <number of loci> [project title 0-79]
+%<number of sites for locus1> <number of sites for locus 2> ...
+%<Number of individuals locus 1>  <#ind locus 2> ... <#ind loc n> <title for population 0-79>
+%<Individual 1 10-10> <data locus 1 part 1>
+%<Individual 2 10-10> <data locus 1 part 1>
+%....
+%<data ind1 locus 1 part 2>
+%<data ind2 locus 1 part 2>
+%....
+%<Individual 1 10-10> <data locus 2>
+%<Individual 2 10-10> <data locus 2>
+%....
+%<data ind1 locus 2 part 2>
+%<data ind2 locus 2 part 2>
+%....
+%etc.
+%\end{verbatim}
+%\end{tt}
+%\end{small}
+\vskip 0.5cm
+A data type called \textbf{HapMap} is available for SNP data that allows less cumbersome input of SNP data than old versions of \migrate, but see current imput format.
+You still can use a single site as a locus (SNP), but with many loci this will be difficult to manage. The HapMap data type uses this format:
+ \begin{small}
+\begin{tt}
+\begin{verbatim}
+<Number of populations> <number of loci> [project title 0-79]
+<Any Number> <title for population 0-79>
+<Position on chromosome locus1> <TAB><allele><TAB><number><TAB><allele><TAB><number><TAB><total>
+<Position on chromosome locus2> <TAB><allele><TAB><number><TAB><allele><TAB><number><TAB><total>
+....
+<Any Number>  <title for population 0-79>
+<Position on chromosome locus1> <TAB><allele><TAB><number><TAB><allele><TAB><number><TAB><total>
+<Position on chromosome locus2> <TAB><allele><TAB><number><TAB><allele><TAB><number><TAB><total>
+....
+\end{verbatim}
+\end{tt}
+\end{small}
+The current format assumes that each SNP is biallelic. $<$allele$>$ contain the nucleotide and the $<$number$>$ contains the number of individuals with that specific allele, the total number is the sum of both,
+and is currently not necessary, but I may use this later to accommodate slight extension of this format, currently the total number is read from the program but not further used. This format will extend to more useful analyses that take into account the position on the chromosome, but this is currently not used.
+\subsubsection{Summary of the individual tokens}
+\begin{entry}{5cm}
+\item[\token{Number of populations}] Number of populations. Range: $1, 2, 3, \dots, n$ where $n$ is a smallish number, remember that the default \migrate run estimates $n^2$ parameters.
+\item[\token{Number of Loci}] Number of unlinked loci. Range: $1, 2, 3, \dots, \ell$ where $\ell$ can be a large number.
+\item[\token{Delimiter}] can be any character that does not occur in some other function in the data set, examples: @ , . /
+\item[\token{Number of individuals}] Number of individuals within one population.  Range: $1, 2, 3, \dots, m$. For exploring \migrate I suggest to use around 10 to 20 individuals, much less (for example 1 or 2) or more (for example 1000) will make the analysis more difficult and need more experience and patience. 
+\item[\token{Title for population}] Title for the population, the first letter must \textbf{not be a Number}!
+\item[\token{Individual}]  Remember that the default for individual names needs 10 characters. Ideally, each individual name is unique and the first letter of the individuals name represents a code for the populations, for example $0,1,2,..$  
+\item[\token{Data}] See examples for the different data types.
+\item[\token{Number of sites}] Number of linked sites.  Range: $1, 2, 3, \dots, S$ 
+\item[\token{Position on Chromosome}] Location on genome measured in sites [not functional yet]
+\item[\token{Allele}] For SNP data this is one of the nucleotides: A, C, G, T.
+\item[\token{Number}] For SNP data this is the number of $<$Allel$>$ at that specific site in the sample. 
+\item[\token{Total}] For SNP data this is the total number of  samples at the specific site. 
+\end{entry}
+
+\subsection{Examples of the different data types}
+The examples in this section look like real data, but they are only
+for the demonstration of the syntax, if you try run this ``data''
+it will deliver often very strange values, I have added a ``usable'' test set
+of simulated data in the examples directory, see the file examples/README 
+for more information.
+\subsubsection{Allozyme data (infinite allele model)}
+\begin{picture}(0,0)(0,0)
+\put(175,-30){\rotatebox{90}{\Large ALLOZYME}}
+\end{picture}\hskip -0.5mm
+The data is given in genotypes, any printable character with ASCII
+code bigger than 33 ('!') and smaller than 128 can be used. '?' is reserved for missing data. You can use multi-character coding when you use a delimiter (see the
+examples for microsatellites).
+If there is enough interest I can work on a input using
+gene frequencies, although I prefer to work on more interesting things than adjusting input files.
+\smallerskip
+Most simple example with a single locus, 2 population and 5 total individuals. 
+\begin{flushleft}
+\begin{small}
+\begin{tt}
+\begin{verbatim}
+ 2 1 Migration rates between two Turkish frog populations
+3 Akcapinar (between Marmaris and Adana)
+PB1058    ab 
+PB1059    ab 
+PB1060    b? 
+2 Ezine (between Selcuk and Dardanelles)
+PB16843   ab 
+PB16844   bb 
+\end{verbatim}
+\end{tt}
+\end{small}
+\end{flushleft}
+\smallerskip
+Example with 2 populations and 11 loci and with  3 and 2 individuals per population,
+respectively (this data set is only an example of syntax, analyzing this
+dataset would not make much sense).
+\begin{flushleft}
+\begin{small}
+\begin{tt}
+\begin{verbatim}
+ 2 11 Migration rates between two Turkish frog populations
+3 Akcapinar (between Marmaris and Adana)
+PB1058    ee bb ab bb bb aa aa bb ?? cc aa 
+PB1059    ee bb ab bb bb aa aa bb bb cc aa 
+PB1060    ee bb b? bb ab aa aa bb bb cc aa 
+2 Ezine (between Selcuk and Dardanelles)
+PB16843   ee bb ab bb aa aa aa cc bb cc aa 
+PB16844   ee bb bb bb ab aa aa cc bb cc aa 
+\end{verbatim}
+\end{tt}
+\end{small}
+\end{flushleft}
+\smallerskip
+Same example, but with a different syntax that allows multicharacter allele names (see last locus!). The delimiter is specified as the third parameter in the first line, the delimiter cannot be a standard alphabet character. 
+\begin{flushleft}
+\begin{small}
+\begin{tt}
+\begin{verbatim}
+ 2 11 / Migration rates between two Turkish frog populations
+3 Akcapinar (between Marmaris and Adana)
+PB1058    e/e b/b a/b b/b b/b a/a a/a b/b ?/? c/c Rs/Rf 
+PB1059    e/e b/b a/b b/b b/b a/a a/a b/b b/b c/c Rs/Rs 
+PB1060    e/e b/b b/? b/b a/b a/a a/a b/b b/b c/c Rs/Rs 
+2 Ezine (between Selcuk and Dardanelles)
+PB16843   e/e b/b a/b b/b a/a a/a a/a c/c b/b c/c Rf/Rf
+PB16844   e/e b/b b/b b/b a/b a/a a/a c/c b/b c/c Rf/Rs 
+\end{verbatim}
+\end{tt}
+\end{small}
+\end{flushleft}
+
+\subsection{Microsatellite data}
+\begin{picture}(0,0)(0,0)
+\put(175,-50){\rotatebox{90}{\Large MICROSATELLITE}}
+\end{picture}\hskip -0.5mm
+{\bf DEFAULT INPUT SYNTAX}\\
+The third argument on the first line has to be a delimiter character, for example a {\bf ``."}.
+The data is given in genotypes. Each individual has two alleles.
+Alleles are coded as \textbf{REPEAT NUMBERS}, so for example your 
+sequence 
+\begin{verbatim}
+Flanking    msat    Flanking
+region              region 
+--------============-------
+ACCTATAGCACACACACACAAATGCGA      6 CA repeats
+ACCTATAGCACACACACA--AATGCGA      5 CA repeats
+\end{verbatim}
+contains a microsatellite with 6 repeats. And if with a homozygote individual
+it needs to be coded as 6.6 or 06.06, where the ``,'' is the delimiter. 
+ '?' is reserved for missing data.
+\smallerskip
+Example:
+\begin{flushleft}
+\begin{small}
+\begin{tt}
+\begin{verbatim}
+ 2 3 . Rana lessonae: Seeruecken versus Tal
+2   Riedtli near Guendelhart-Hoerhausen
+0         6.5 37.31 18.18
+0         6.6 37.33 18.16
+2  Tal near Steckborn
+1         4.5 35.? 18.18 
+1         4.4 35.31 20.18 
+\end{verbatim}
+\end{tt}
+\end{small}
+\end{flushleft}
+
+{\bf FRAGMENT LENGTH INPUT SYNTAX}\\
+{\bf Earlier version of }
+The third argument on the first line has to be a delimiter character, for example a {\bf ``."}.
+The data is given in fragmentlength. Each individual has two alleles.
+Alleles are coded as \textbf{FRAGMENTLENGTH}, so for example your 
+sequence 
+\begin{verbatim}
+Flanking    msat    Flanking
+region              region 
+--------============-------
+ACCTATAGCACACACACACAAATGCGA      27 sites total length
+ACCTATAGCACACACACA--AATGCGA      25 sites total length
+\end{verbatim}
+contains a microsatellite with 6 repeats, but you only have measures of the total length, here for the first allele there are 27 sites and the second allele there are 25 sites. This format needs an additional line to tell \migrate that we use fragment length and that \migrate needs to do the translation to repeat numbers, inspect closely the line that starts with \#@M in the example below. The \#@M tells the program that here comes a definition of the 
+microsatellite repeats, and the numbers force \migrate to assume that the loci are dinucleotide repeats (2) , ot trinuleotide with 3 or tetranulceotides with 4 nucleotides per repeat, and so forth. 
+
+And if with a homozygote individual
+it needs to be coded as 25.25 or 025.025, where the ``.'' is the delimiter. A heterozygote would read 25.27, for example.
+ '?' is reserved for missing data.
+\smallerskip
+Example:
+\begin{flushleft}
+\begin{small}
+\begin{tt}
+\begin{verbatim}
+  2 3 . Rana lessonae: Seeruecken versus Tal
+#@M 2 2 2
+2   Riedtli near Guendelhart-Hoerhausen
+0         25.27 137.131 218.218
+0         27.27  218.216
+2  Tal near Steckborn
+1         23.25 135.? 218.218 
+1         23.23 135.131 220.218 
+\end{verbatim}
+\end{tt}
+\end{small}
+\end{flushleft}
+\subsection{Sequence data}
+The sequence data format has received a face-lift: two new formats are now allowed (1) the old format described below and (2) the new format that is more appropriate for genomic type data.
+
+After  the individual name 
+follows  the  base  sequence  of  that species, each character being one of the 
+letters A, B, C, D, G, H, K, M, N, O, R, S, T, U, V, W, X, Y, ?, or - .  Blanks will be ignored, and so 
+will  numerical  digits.   This  allows GENEBANK and EMBL sequence entries to be 
+read with minimum editing.      These characters can be  either  upper  or  lower  case.   The  algorithms 
+convert  all  input  characters  to upper case. 
+The characters constitute the IUPAC (IUB) nucleic acid code  plus  some  slight 
+extensions (Table \ref{iupac}).  They enable input of nucleic acid sequences taking full account of 
+any ambiguities in the sequence.   
+\begin{table}[hpbt]
+\caption{IUPAC (IUB) convention for naming nucleotide sites and ambiguous sites} \label{iupac}                                            
+\begin{center}
+\begin{tabular}{lll c lll}        
+\hline                                                                
+Symbol & Meaning  & && Symbol & Meaning\\
+\hline            \\                                                   
+A & Adenine      & && B & not A & (C or G or T)  \\                                                   
+G & Guanine      & &&D & not C & (A or G or T)\\                                             
+C & Cytosine      &&& H & not G & (A or C or T) \\                                           
+T & Thymine       &&& V & not T & (A or C or G)\\                                             
+U & Uracil        &&&X,N,? & unknown & (A or C or G or T)\\                                          
+Y & pYrimidine & (C or T)  &&O & deletion              \\                                      
+R & puRine & (A or G)   &&- & deletion   \\                                 
+W & "Weak" & (A or T)      \\                                 
+S & "Strong" & (C or G)    \\                                  
+K & "Keto" & (T or G)      \\                              
+M & "aMino" & (C or A)     \\                                
+\end{tabular}
+\end{center}
+\end{table}
+
+Most simple example with 1 population and a DNA-locus with 50 basepairs.
+\begin{flushleft}
+\begin{small}
+\begin{tt}
+\begin{verbatim}
+   1 1 Make believe data set using simulated data (1 locus)
+50 
+3  Tallahassee 
+Peter     ACACCCAACACGGCCCGCGGACAGGGGCTCGAGGGATCACTGACTGGCAC
+Donald    ACACAAAACACGGCCCGCGGACAGGGGCTCGAGGGGTCACTGAGTGGCAC
+Christian ATACCCAGCACGGCCGGCGGACAGGGGCTCGAGGGAGCACTGAGTGGAAC
+\end{verbatim}
+\end{tt}
+\end{small}
+\end{flushleft}
+\begin{flushleft}
+\begin{small}
+\begin{tt}
+\begin{verbatim}
+   1 1 Make believe data set using simulated data (1 locus) OLDFORMAT
+50 
+3  Tallahassee 
+Peter     ACACCCAACACGGCCCGCGGACAGGGGCTCGAGGGATCACTGACTGGCAC
+Donald    ACACAAAACACGGCCCGCGGACAGGGGCTCGAGGGGTCACTGAGTGGCAC
+Christian ATACCCAGCACGGCCGGCGGACAGGGGCTCGAGGGAGCACTGAGTGGAAC
+\end{verbatim}
+\end{tt}
+\end{small}
+\end{flushleft}
+The new format looks very similar in its simplest version
+\begin{flushleft}
+\begin{small}
+\begin{tt}
+\begin{verbatim}
+   1 1 Make believe data set using simulated data (1 locus) NEWFORMAT
+(s50) 
+3  Tallahassee 
+Peter     ACACCCAACACGGCCCGCGGACAGGGGCTCGAGGGATCACTGACTGGCAC
+Donald    ACACAAAACACGGCCCGCGGACAGGGGCTCGAGGGGTCACTGAGTGGCAC
+Christian ATACCCAGCACGGCCGGCGGACAGGGGCTCGAGGGAGCACTGAGTGGAAC
+\end{verbatim}
+\end{tt}
+\end{small}
+\end{flushleft}
+
+\smallerskip
+Same example, but now with 2 population and a single DNA-locus with 50 basepairs.
+\begin{flushleft}
+\begin{small}
+\begin{tt}
+\begin{verbatim}
+   2 1 Make believe data set using simulated data (1 locus) OLDFORMAT
+50 
+3  Tallahassee 
+Peter     ACACCCAACACGGCCCGCGGACAGGGGCTCGAGGGATCACTGACTGGCAC
+Donald    ACACAAAACACGGCCCGCGGACAGGGGCTCGAGGGGTCACTGAGTGGCAC
+Christian ATACCCAGCACGGCCGGCGGACAGGGGCTCGAGGGAGCACTGAGTGGAAC
+3  St. Marks 
+Lucrezia  ACACCCAACACGGCCCGCGGACAGGGGCTCGAGGGATCACTGACTGGCAC
+Isabel    ACACAAAACACGGCCCGCGGACAGGGGCTCGAGGGGTCACTGAGTGGCAC
+Yasmine   ATACCCAGCACGGCCGGCGGACAGGGGCTCGAGGGAGCACTGAGTGGAAC
+\end{verbatim}
+\end{tt}
+\end{small}
+\end{flushleft}
+In the new format this still looks very similar to the old format except for the line that contains the number of sites,
+the simple number of sites is replaced by the data type 's' and the parenthesis specifies that the locus is unlinked
+
+
+More complicated example with 2 population AND with {\bf 2 loci}, the sequences are NOT interleaved, I drop the interleaved from because I find it error-prone cumbersome to change and unnecessary.
+\begin{flushleft}
+\begin{small}
+\begin{tt}
+\begin{verbatim}
+   2 2 Make believe data set using simulated data (2 loci) OLDFORMAT
+50 46 
+3 3   pop1 
+eis       ACACCCAACACGGCCCGCGGACAGGGGCTCGAGGGATCACTGACTGGCAC
+zwo       ACACAAAACACGGCCCGCGGACAGGGGCTCGAGGGGTCACTGAGTGGCAC
+drue      ATACCCAGCACGGCCGGCGGACAGGGGCTCGAGGGAGCACTGAGTGGAAC
+eis       ACGCGGCGCGCGAACGAAGACCAAATCTTCTTGATCCCCAAGTGTC
+zwo       ACGCGGCGCGAGAACGAAGACCAAATCTTCTTGATCCCCAAGTGTC
+drue      ACGCGGCGCGAGAACGAAGACCAAATCTTCTTGATCCCCAAGTGTC
+2    pop2
+vier      CAGCGCGCGTATCGCCCCATGTGGTTCGGCCAAAGAATGGTAGAGCGGAG
+fuef      CAGCGCGAGTCTCGCCCCATGGGGTTAGGCCAAATAATGTTAGAGCGGCA
+vier      TCGACTAGATCTGCAGCACATACGAGGGTCATGCGTCCCAGATGTG
+fuefLoc2  TCGACTAGATATGCAGCAAATACGAGGGGCATGCGTCCCAGATGTG
+\end{verbatim}
+\end{tt}
+\end{small}
+\end{flushleft}
+\subsubsection*{Improved (new) format}
+The old format asks for the number of sites for each locus on the second line of the datafile and then needs all loci as consecutive blocks within each population. The new format still allows this old style but adds a new format that can take concatenated loci, one line per individual, To mark the new format the number of sites needs to be specified in a modified format, here a few examples:
+\startformatted
+OLDFORMAT 1 locus:    123\\
+NEWFORMAT 1 locus:   (s123)\\ 
+OLDFORMAT 3 loci:    123 195 2310\\
+NEWFORMAT 3 loci:   (s123) (s195) (s2310)\\
+NEWFORMAT 3 loci:   (s123), (s195), (s2310)\\
+\endformatted
+The last two examples show some of the difference to the old format, the example with the ``,'' (comma) block the data like the old format, whereas the example just before uses the concatenated scheme, each individual will need 123+195+2310 sites, that are are then separated by the program into 3 independent loci because the ``()" syntax suggests that these loci are independent. Other formats like "Brownian motion is specified with (b1), SNPs are specified with (n1) or 4 linked snps are specified with (n4). For allelic data the old format is preferred and the new format may still break for Brownian motion, stepwise, or allelic models (b, m, a). 
+\subsubsection*{Advancement of the new format}
+The main advantage of the new format allows to give a very large sequence that may or may not be a concatenated list of loci,
+that then can be split by the specification on the 'sites' line (the second line) in the datafile
+The new format is triggered when the first character on the sites line is a '(', fro example
+\texttt{(s50)}\\
+marks a single sequence locus with 50 sites
+\texttt{(s20 s30)}\\
+marks two LINKED sequence loci with 20 sites and 30 sites. The two loci are on the same line, for example (s3 s5) looks like this
+\begin{flushleft}
+\begin{small}
+\begin{tt}
+\begin{verbatim}
+2 2 Make believe data set using simulated data (1 locus) NEWFORMAT
+(s3  s5) 
+3  Tallahassee 
+Peter     ACA CCCAA
+Donald    ACA CAAAA
+Christian ATA CCCAG
+3  St. Marks 
+Lucrezia  ACA CCCAA
+Isabel    ACA CAAAA
+Yasmine   ATA CCCAG
+\end{verbatim}
+\end{tt}
+\end{small}
+\end{flushleft}
+
+\texttt{(s20) (s30)}
+marks two UNLINKED sequence loci with 20 sites and 30 sites, respectively. 
+
+
+The old format that specified earlier as two unlinked loci with \texttt{50 46} can now be written as 
+\texttt{(s50), (s46)} observe the ',' that specifies that the loci are blocked like in the old format, if both loci would be in the sample line as in the example before, then it reads 
+\texttt{(s50) (s46)}
+
+Here are more examples:
+\texttt{(s100) (s50 s40) (s10)}\\
+The first locus has 100 basepairs, the second is a compound out of two linked loci with 50 sites and 40 sites each, and third locus has 10 sites. 
+
+Currently \migrate is ill equipped  to run dataset with large sequences (millions of base pairs) automatically without guidance by the user how to break up these into unlinked blocks. But there are
+several shortcuts for very large genomic sequences, for example assume that you have sequence data of a chromosome. You could want to run 100 loci with length 500 bp distributed over the whole genomic sequence. This would be possible by
+\texttt{[100o500] (s21000000)} and you will also need to specify on the first line that you have 100 loci.
+This will take the whole sequence of $21\times10^6$ sites and extract 100 regularly space loci each 500 bp long, the same could be achieved by specifying the location of the locus in the full sequence, using something like:\\
+\texttt{(0s500) (210000s500) (420000s500) (630000s500) ....}
+
+Instead of an ordered set of loci one can choose a randomly set of loci using\\
+\texttt{[100r500] (s21000000)}\\
+This allows to run different subsets of the data, currently there is no way to use this random site subset to do model comparison because there is possibility to force the same random set for different runs of \migrate.
+%\vskip 1cm 
+%The datafile can now also contain instructions for the mutation model for each locus using this syntax after the SITE line:\\
+%\texttt{#$ 
+%Same example with 2 population with {\bf 2 loci}, but the sequences are now interleaved {\bf [DEPRICATED: stop using the interleaved format]}:
+%\begin{flushleft}
+%\begin{small}
+%\begin{tt}
+%\begin{verbatim}
+%   2 2 Make believe data set using simulated data (2 loci, interleaved)
+%50 46 
+%3  2 pop1
+%eis       ACACCCAACACGGCCCGCGGACA
+%zwo       ACACAAAACACGGCCCGCGGACA
+%drue      ATACCCAGCACGGCCGGCGGACA
+%          GGGGCTCGAGGGATCACTGACTGGCAC
+%          GGGGCTCGAGGGGTCACTGAGTGGCAC
+%          GGGGCTCGAGGGAGCACTGAGTGGAAC
+%eis       ACGCGGCGCGCGAACGAAGACCA
+%zwo       ACGCGGCGCGAGAACGAAGACCA
+%          AATCTTCTTGATCCCCAAGTGTC
+%          AATCTTCTTGATCCCCAAGTGTC
+%2  2  pop2
+%vier      CAGCGCGCGTATCGCCCCATGTGGTTCGGCCAAAGAATG
+%fuef      CAGCGCGAGTCTCGCCCCATGGGGTTAGGCCAAATAATG
+%          GTAGAGCGGAG
+%	  TTAGAGCGGCA
+%          TCGACTAGATCTG CAGCACATAC
+%          TCGACTAGATATG CAGCAAATAC
+%	  GAGGGTCATGCGTCCCAGATGTG
+%	  GAGGGGCATGCGTCCCAGATGTG
+%\end{verbatim}
+%\end{tt}
+%\end{small}
+%\end{flushleft}
+\newpage
+\subsection{SNP data}
+The SNP data uses the same nucleotide nomenclature as the sequence data.
+and the first format is the same as the sequence data but with only one site for unlinked SNPs or more than one site
+for linked SNPs see example, the datatype to use for this data is either 'N' for nucleotides or 'H' for HapMap.
+The very first letter forces as specific data model, if that first position is empty than the parmfile or the menu can specify the data type.
+\begin{flushleft}
+\begin{small}
+\begin{tt}
+\begin{verbatim}
+# using the old SNP data format
+N 2 2 Make believe data set using simulated data (2 population and 2 loci)
+1 4 
+3 3   pop1 
+ind1      A
+ind2      A
+ind3      A
+ind1      ACAC
+ind2      ACAC
+ind3      ACGC
+2    pop2
+ind4      C
+ind5      C
+ind4      TGGA
+ind5      TCGA
+\end{verbatim}
+\end{tt}
+\end{small}
+\end{flushleft}
+
+
+The HapMap format for the same data set looks like this:
+
+\begin{flushleft}
+\begin{small}
+\begin{tt}
+\begin{verbatim}
+# PRELIMINARY use this with care and let me know!
+# using the HapMap data format, but does produce the same result (yet) as the dataset above
+H 2 2 Make believe data set using simulated data (2 population and 2 loci) 
+3  pop1 
+1         A    3    C    0    3
+1000      A    3    T    0    3
+1010      C    3    G    0    3
+1011      A    2    G    1    3
+1015      C    3    A    0    3
+2    pop2
+1         A    0    C    2    2
+1000      A    0    T    2    2
+1010      C    1    G    1    2
+1011      A    0    G    2    2
+1015      C    0    A    2    2
+\end{verbatim}
+\end{tt}
+\end{small}
+\end{flushleft}

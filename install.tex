@@ -1,0 +1,254 @@
+\chapter{Installation}
+\subsection{Binaries}
+On UNIX system unpack with {\tt tar xvfz migrate.[system].tar.gz} or\\ {\tt gunzip -c migrate\VERSION .[system].tar.gz | tar xf -}.
+This builds a directory {\tt migrate-\VERSION}
+with a subdirectory {\tt examples},
+the files {\tt README, HISTORY}, and the programs 
+{\tt migrate} and {\tt migrate-n}. 
+The program can be moved to a location like {\tt /usr/local/bin} 
+and the documentation (HTML files are in documentation/migratedoc) to
+your HTML directory (e.g. {\tt /usr/local/etc/httpd/htdocs}).
+On Powermacs or Windows machines double click the archive 
+and a folder system similar the UNIX directories above will be created.
+
+\subsection{Source}
+The program is known to compile on
+every UNIX machine that has a decent ANSI compatible compiler.
+And on the following non-UNIX machines:  INTEL (Windows 2000, xt, vista?).
+
+\subsubsection{UNIX (Linux, BSD Unix, MacOSX)}
+\begin{enumerate}
+\item {\bt{gunzip -c migrate\VERSION .tar.gz $|$ tar xf -} or\\
+\bt{tar xfz migrate\VERSION .tar.gz}}
+   this creates a directory "migrate-\VERSION " with "src", ``contribution'',  and "examples" in it.
+\item {\tt cd migrate-\VERSION }
+\item {\tt ./configure} \\(this scripts checks your system and will report 
+functions the program needs, if a function is not, it will report an error,
+which I need to know. I assume that your machine has {\tt gcc} installed,
+but {\tt configure} tries to be smart about other compilers: 
+on SGI and DEC ALPHA without {\tt gcc} it will use the native 
+$cc$ compiler with the approriate options. You can force this behavior
+with bash shell: CC=cc ./configure, in csh shell: env CC=cc ./configure
+
+\item  {\tt make}  \\
+ (please report warnings and especially errors)
+ This produces an optimized binary for your computer, if your computer has multiple CPUs or core, you can try to compile
+ using {\tt make thread}, this produces a binary that can use multiple processors for heated runs, this is good but parallel
+ runs on such computers use more CPU cycles.
+ 
+ The result should be a binary {\tt migrate} in the migrate directory.
+If you have a multiprocessor machine that has the POSIX thread library
+installed (the configure script searches for libpthread and pthread.h)
+try to use {\tt make thread}, this will allow to run the heated chains
+in parallel and so should speed up the program if you use heating.
+\item {\tt make install} \\ (this will install the program and man-page into usr/local/bin, /usr/local/man/man1
+   ; you need to be root to do this; this step is not necessary)
+\end{enumerate}
+
+
+\chapter{Parallel \migrate}
+This text describes how you can improve the performance of \migrate\ 
+when you have more than one locus and more than one computer at 
+your fingertips. You can parallelize migrate runs 
+(1) using a virtual parallel architecture with a message-passing 
+interface (MPI) or (2) by hand.
+The hand-version works but is cumbersome, 
+the MPI-version runs fine on clusters of MacOSX workstations, dedicated clusters of Linux machines, 
+AIX parallel machines (Regatta; SP3, SP4).
+
+\section{I. Using the standard Message passing interface (MPI)}
+
+\begin{enumerate}
+\item  Secure as many computers for the analysis as you have loci or parameters
+    in your dataset. Make sure that all computers can talk to each
+    other. Currently my program will only work if they are a flavor of 
+    UNIX (e.g. LINUX or MACOSX). Of course, you need an account on all 
+    the machines.
+  \begin{itemize}
+  \item   Download OpenMPI from  http://www.openmpi.org [I use version 1.2.5] (Macintosh computers with the Leopard operating system -- MacOS 10.5 have this already built-in, use {\tt fastmigrate-n})
+    \item install on all machines (if this is to complicated for you ask a
+      sysadmin or other guru to help:\\
+      ~~~~~~\texttt{ ./configure }
+      There are several options that may or may not be helpful in your environment
+     \item prepare a file ``hostsfile" according to the specs in the openmpi distribution, the master node
+      needs to be the first machine mentioned.
+      my ``hostsfile" looks like this:\\
+      \begin{tt}
+      ciguri node=2\\
+      zork  node=1\\
+      nagual node=32
+      \end{tt}	      
+\item make sure that you can access all machines [using ssh]
+     without the need to specify a password, see man ssh-keygen and man ssh
+     if you have firewalls installed on your individual systems then you would need to allow
+     the individual machines to open/request "random" ports on the other machines. 
+     On MacOSX machines this is a common problem because the machines may run local firewalls.
+\item change into the migrate-2.4/src/ directory
+      configure and then use "make mpis-pretty" 
+\end{itemize}      
+
+\item If your machines have no cross-mounted file system,
+    you need to make sure that the program is all
+    in the same path e.g. /home/beerli/migrate-test/migrate-n and on EVERY machine.
+    
+    
+\item Compile migrate, you need to follow the instructions in README. Essentially you need to do\\
+\texttt{
+     ./configure\\
+     make mpis
+     }
+     
+     The configure command sets up the Makefile etc. 
+     \texttt{make mpis-pretty} compiles for parallel machines.
+     
+\item Try run the following command from the src/example directory
+\begin{itemize}
+  \item    \texttt{mpirun  -np 7 --host hostfile ../migrate-n parmfile.testbayes -nomenu}
+    [ 6 loci will be analyzed at at the same time,
+     the log is not very comprehensive because all 7 processes
+     write to the same console, 7 because there is one master-node
+     who does only scheduling  and summarizing, 6 worker-nodes
+     do the actual tree rearrangements and the likelihood calculations.
+     the number you specify has nothing to do with the physical computers,
+     OpenMPI can run several nodes on a single CPU but best is to use not more nodes than there are CPU-cores.
+
+    \item send comments how it worked for you and improvements for my 
+     [currently] too short and confusing guide.
+\end{itemize}
+\end{enumerate}
+
+\section{II. BY HAND (not recommended)} 
+\begin{enumerate}
+\item Secure as many computers for the analysis as you have loci
+    in your dataset.
+
+\item On one machine prepare a directory with
+\begin{itemize}
+\item \migrate\ \\
+    run the program once, and adjust the run parameters using
+    the menu. Use the sumfile option in the (I)nput menu
+    and then save the parmfile with the 
+    (W)rite parmfile option. Then (Q)uit.
+    Edit the created parmfile and check if you can find
+    \texttt{ 
+    write-summary=YES:sumfile-locus\\
+    then change menu=YES to menu=NO
+}
+\item Copy this directory on each machine and name the directories
+    e.g. locus1 locus2 .....
+    If you use Appleshare be careful that you have also 
+    directories for each locus, or make sure that outfiles, and sumfiles
+    have all different names
+     
+\item Prepare the infiles. One for each locus
+    Copy the infiles into the directories.
+\end{itemize}
+
+\item Start \migrate\ on all machines
+
+\item Once all the \migrate\ runs have finished, 
+    copy all sumfiles onto a single machine
+    it would be helpful if this is your fastest 
+    with lots of RAM. Be careful not ot overwrite
+    individual files (the have the same name" sumfile").
+ 
+\item Concatenate the sumfiles 
+
+\item The combined sumfile needs hand editing
+    or you can use the PERL script 
+    
+    \texttt{concat-sumfile}
+    
+    if you cannot run the PERL script or 
+    want to do it by hand, see the example below.
+
+\item make a save copy of the fixed combined sumfile
+
+\item run \migrate\ \\
+    and use option (D)atatype and there (g)enealogy
+    and change other menu items if you want.
+    
+\item voil\`a, a multilocus outfile in a fraction of
+     the time the program needs to run on a single machine.
+
+\end{enumerate}
+
+\begin{figure}[bht]
+
+\begin{center}
+
+\begin{boxedminipage}{16cm}
+\begin{small}
+\begin{tt}
+\begin{verbatim}
+# begin genealogy-summary file of migrate 2.0.3 ------
+#
+1 3 9 0 1
+0 0 ####### locus 0, replicate 0 ################    <<<<<<<<<<<<<<change this
+1 0 0
+                   0                    0                    0
+101 0.01224715726902237366 0.24028906596661075978 68
+0.01797109426997086853 0.46646854779862101381 88
+0.00810026471633800565 0.36704951583234807222 98
+0.010000 0.010000 0.010000 32.000000 23.000000 23.000000 29.000000 21.000000 27.000000 
+3.53366272929252732415e-03 3.53366273324574875492e-03
+5.30077896995009931885e-03 5.30077895638609870171e-03
+3.74540337472894320145e-03 3.74540325539807769997e-03
+2.61285099904684057037e+03 2.61285112767777718545e+03
+1.87798679166376041394e+03 1.87798680725500389599e+03
+1.27983305210177809386e+03 1.27983304107036315145e+03
+1.61370252198881439654e+03 1.61370251775554697815e+03
+2.59250790064689090286e+03 2.59250788575867818508e+03
+3.33322424226003886361e+03 3.33322432150516533511e+03
+39 1.71782306759650010393e-06
+# end genealogy-summary file of migrate 2.0.3 ------
+\end{verbatim}
+\end{tt}
+\end{small}
+\end{boxedminipage}
+\end{center}
+\caption{{\sf First few lines of a sumfile}}
+\label{SUMFILE}
+\end{figure}
+\subsection{What to edit in a sumfile} 
+
+\begin{enumerate}
+\item the heading of a sumfile needs the two first comment lines
+\begin{verbatim}
+# begin genealogy-summary file of migrate 0.9.8 ------
+#
+\end{verbatim}
+
+\item the third line needs editing, the first number is the number of loci
+for single locus data it is 1, change it to the number of loci
+\begin{verbatim}
+1 3 9 0 1  [before]
+4 3 9 0 1  [after, 4 loci]
+\end{verbatim}
+
+\item Search for \#\#\#\#\#\#\# you will find  lines like the following
+\begin{verbatim}
+0 0 ####### locus 0, replicate 0 ################
+\end{verbatim}
+
+the file start couting with 0, so the lines reads locus 1 and replicate 1
+leave the first occurrence as it is. Goto the end of the file and 
+remove
+\begin{verbatim}
+# end genealogy-summary file of migrate 0.9.8 ------
+\end{verbatim}
+
+\item Prepare the next sumfile.x to the master sumfile
+    \begin{itemize}
+    \item Remove everything above \texttt{0 0 \#\#\#\#\#\#\#\# locus 0, replicate 0 .....} 
+    \item change the number to    \texttt{1 0 \#\#\#\#\#\#\#\# locus 1, .....}
+      if you use replicates you need to change the replicates accordingly.
+    \item Remove the last line [except for the very last sumfile
+    \end{itemize}
+\item concatenate the above sumfile-fragment to the master sumfile
+
+\item Goto (4) until done 
+\end{enumerate}
+   
+
+\newpage

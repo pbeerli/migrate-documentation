@@ -1,0 +1,117 @@
+\chapter{Errors and warnings displayed by {\tt migrate}}
+The errors are in no particular ordering, but
+I will move more important ones to the beginning of their sections.
+
+\section{Errors}
+The program aborts when it encounters one of the following conditions.
+Of course there are certainly conditions
+I have not thought of. 
+
+\smallerskip
+{\bf SEVERE ERROR: ....}
+Most often your {\tt infile} contains a problem (e.g. number of sites
+does not match the number actual sites given, number of individuals
+does not match). If you fail to correct the problem. please contact me.
+ 
+\smallerskip
+{\bf ERROR: Datatype is wrong, please use a valid data type!}\\
+{\bf ERROR: the program will crash anyway, so I stop now}\\
+You probably specified a wrong letter for the data type in the {\tt parmfile}\\
+\smallerskip
+{\bf ERROR: Wrong datatype, only the types a, m, s, n} 
+{\bf ERROR:         (electrophoretic alleles,}\\
+{\bf ERROR:          microsatellite data,}\\
+{\bf ERROR:          sequence data,}\\
+{\bf ERROR:          SNP polymorphism)  are allowed.} \\
+You probably specified a wrong letter for the data type in the {\tt menu}\\
+\smallerskip
+{\bf ERROR: The parmfile contains an error on line XX}\\
+There was a wrong entry or even more likely wrong values in the {\tt parmfile} on line xx.\\
+\smallerskip
+{\bf ERROR: Inconsistency between your Menu/Parmfile and your datafile}\\
+Most likely your parmfile assumes there are n subpopulations and 
+you assume m subpopulations. Problems with the migration matrix are likely.\\
+\smallerskip
+{\bf ERROR: There is a conflict between your menu/parmfile}\\
+{\bf ERROR: and your datafile: number of populations are not the same}\\
+Most likely your parmfile assumes there are n subpopulations and 
+you assume m subpopulations. \\
+\smallerskip
+{\bf ERROR: cannot find seedfile}\\
+You specified that the random number is in {\tt seedfile}, 
+but the file is not present
+in the directory \migrate\ is running.\\
+\smallerskip
+{\bf ERROR: Failure to read seed method, should be}\\
+{\bf ERROR: seed=auto or seed=seedfile or seed=own:value}\\
+{\bf ERROR: where value is a positive integer}\\
+Either seed specification in {\tt seedfile} or {\tt parmfile} is wrong.\\
+\smallerskip
+{\bf ERROR: Failure to read start theta method, should be}\\
+{\bf ERROR: theta=FST or theta=Own:x.x}\\
+{\bf ERROR: or theta=Own:\{x.x, x.x , x.x, .....\}}\\
+{\bf ERROR: migration=Own:{migration value}}\\ 
+the start parameters are not correctly specified.\\
+\smallerskip
+{\bf ERROR: Failure to read start migration method}\\
+the start parameters are not correctly specified.\\
+\smallerskip
+{\bf ERROR: Custom migration matrix was completely set to zero?!}\\
+the custom migration matrix was not correctly specified.
+\section{Warnings}
+{\bf WARNING: migration limit (xx) exceeded: yy}\\
+{\bf WARNING: results may be underestimating migration rates}\\
+{\bf WARNING: for this chain}\\
+If this happens only a few times in short chains, don't worry. If it happens
+in the last chain or very often, then your migraiton estimates will be most
+likely underestimated, but the migration rates between these populations will
+be very high, anyway. It means that there is an upper limit of possible migration events on the genealogies, and this is set as a default to 
+number\_of\_populations $\times$ 1000.\\
+\smallerskip
+{\bf WARNING: Migration forced}\\
+{\bf WARNING: results may overestimate migration rates}\\
+{\bf WARNING: for this chain}\\
+Migration rate is essentially 0.0, the program proposes sometimes a migration
+event even so the probabilities would foce a coalescence, this heuristic
+helps to escape the fatal attraction to 0.0.
+If 4Nm is smaller than 0.1 the program will propose randomly every tenth
+event a migration event. This genealogy has then still to be accepted.
+Hitting this boundary can produce an upwards bias, but it should be
+only be recognizable when your populations are barely connected, if at all.\\
+\smallerskip
+{\bf WARNIN`G: This does look like sequence data}\\
+{\bf WARNING: I just read a number of sites=0}\\
+{\bf WARNING: If you use the wrong data type, the program will abort}\\
+Check your datatype!\\
+\smallerskip
+{\bf WARNING: --------------------------------------}\\
+{\bf WARNING: Target branch problems with time=xx}\\
+{\bf WARNING: --------------------------------------}\\
+If you encounter this, abort the program, and try to find the error
+in the {\tt infile}, but if the data prints conrrectly, 
+please contact me. Probably I should declare this 
+a severe error and abort.\\
+\smallerskip
+{\bf WARNING: proposed and new likelihood differ: xx != yy}\\
+{\bf WARNING: abort the program and try to find the errors}\\
+{\bf WARNING: there could be a wrong datatype, or infile}\\
+{\bf WARNING: to check the data you can print it (see menu)}\\
+If you have problems to resolve this error (check for errors in infile), 
+please contact me and try to give as much information 
+as you can (including your dataset).\\
+\smallerskip
+{\bf WARNING: Inappropiate entry in parmfile: {\it keyword} ignored}\\
+The {\it keyword} of a parmfile entry was wrong, often misspelled.\\
+\smallerskip
+{\bf WARNING: You forgot to add your guess value:}\\
+{\bf WARNING: Theta=Own:{pop1,pop2, ...}}\\
+{\bf WARNING: or Theta=Own:guess\_pop (same value for all)}\\
+You probably specified Theta=Own and forgot to say what values.\\
+\smallerskip
+{\bf WARNING: You forgot to add your guess value, use either:}\\
+{\bf WARNING: migration=FST}\\
+{\bf WARNING: or migration=Own:\{guess\_4Nm\} (same value for all)}\\
+{\bf WARNING: or migration=Own:\{ - 4Nm21 4Nm31 .... 4Nm12 - 4Nm23 ...\}}\\
+You probably specified migration=Own and forgot to say what values.
+See the parmfile section, about how to give the migration values.
+

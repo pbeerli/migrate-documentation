@@ -1,0 +1,47 @@
+\section{How to avoid conflicts with other computer users}
+The run time {\bf and the memory usage} of {\tt migrate} is 
+highly dependent on the number of populations,
+the length of the chains, and the number of loci.
+It is common that a single locus data set can run for many hours even
+very fast machines, resulting in runs of many days for
+multilocus data sets.  For some users this can produce a problem,
+either the system administrator or other users gets mad about you
+consuming ``all'' resources, this is mostly CPU and for large data
+sets also memory. 
+\par
+{\bf For UNIX systems} the immediate, but perhaps wrong, 
+answer to this people is that these demanding programs are one 
+of the reasons to use these fast computers; 
+a run of {\tt migrate} does normally not compromise
+any editing, mail reading, word processing on shared machines.
+To free a terminal you can put migrate into background and log out.
+\begin{enumerate}
+\item Run {\tt migrate-n}
+\item Change the menu as you think is apropriate.
+\item In the main menu use {\bf (W)rite a parmfile}.
+\item Kill the program (Control-c) or use {\bf (Q)uit}.
+\item Edit the {\tt parmfile} and change the entry {\tt menu=YES}
+to {\tt menu=NO} and any other option you want to change.
+If you intend to run the program several times you should change
+for each run the {\tt random-seed=OWN:somenumber}.
+\item Rerun the program with\\
+{\tt nohup (nice migrate-n > migrate.log ; date | $\setminus$
+mail -s ``migrate finished'' youremailaddress) \&}\\
+the {\tt nohup} allows you to logout without stopping the program, 
+additionally potential output is logged into nohup.out.
+The {\tt nice} causes to program to run slower when other users are 
+using the machine ``unniced''. On servers the nicing often happens
+automatically after some time or they have a specific batch system, 
+ask you system administrator what's
+best for a long run.\\
+(b) OR: use the \textsl{screen} command: screen ; migrate-n <CNTRL>-a D D.
+<CNTRL>-a D D is a key sequence using the control key a lowercase and two capitalized D, this results in an immediate logout, but leaves the program running. 
+\item (a) logout or do something else, you will get mail when
+migrate has finished, if you are curious and want to known when approximately it will finish peek into the file {\tt migrate.log}, but do not save it.\\(b) On the next login use \textsl{screen -r} to recover the session.
+\end{enumerate}
+\par
+{\bf For  Windows} the program is 
+unfortunately not a so good citizen and is disturbing other programs.
+To run long {\tt migrate} on these machines the best way is
+to run this on a private machines, where you have the control.
+\newpage

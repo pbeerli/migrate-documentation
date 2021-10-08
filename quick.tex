@@ -1,0 +1,193 @@
+\chapter{Quick guide for achieving ``good'' results with {\tt migrate}}
+\unitlength=1mm
+\begin{picture}(0,0)(0,0)
+\put(110,0){\includegraphics[width=6cm]{mim/read}}
+\end{picture}
+
+\section{Monitoring progress}
+\subsection{Maximum likelihood inference}
+The program will show additional information if the {\bt{progress}} flag is set ({\bt{progress=Yes}} is the default). You can see more with {\bf {progress=verbose}} [I suggest NOT to use this because most of the information is not generaly useful to check convergence, but it is usefule for me to find problems. It uses much more resources and slows the program down].
+Below, I show output that uses verbose (to explain some of the output) almost always this is overkill (do not use verbose with parallel runs). 
+With {\bt{logfile=filename}} all progress is also directed into this logfile, the default name is 
+{\tt logfile}. 
+The progress is report similar to the following screen dump fragment
+for each chain and each locus. I added a line number which is not part of 
+the output (Y means standard progress report, V are the additional lines in verbose mode).
+\begin{footnotesize}
+\begin{tt}
+\begin{verbatim}
+01Y 11:49:01   Start conditions: theta={811.90959,0.03487}, M={140.99436,0.00000},
+02Y           Start-tree-log(L)=-93.678120
+03Y 11:49:01   Equilibrate tree (first 200 trees are not used)
+04Y 11:49:03   Long chain   1: lnL=0.21525   ,
+05Y            theta={0.04026,0.05527}, M={83.96647,45.78351}
+06V            Sampled tree-log(L)={-98.760356 .. -93.035062}, best in group =-93.019453
+07V            log(P(g|Param))  -20 to  -18  -16  -14  -12  -10   -8   -6   -4   -2    0   All
+08V            Counts                     0    0    0    0    0    0    0    0  144   56   200
+09V            Maximization steps needed:   134
+10V            Coalescent nodes:  0  1  2  3 
+11V              population   0:  *  -  -  - 
+12V              population   1:  -  -  -  * 
+13Y            Acceptance-ratio = 1095/2000 (0.547500)
+.....
+14Y 11:49:09   Final parameter estimation over all loci
+15Y         
+16Y          <paste in correct part>
+17Y          
+18Y 11:49:09   Program finished
+\end{verbatim}
+\end{tt}
+\end{footnotesize}
+
+The values reported should give some hints how the program progresses 
+through the sample space.  The tree likelihoods (line 06V) should go 
+steadily up until a peak in the likelihood surface has been reached. 
+It can go down through a valley of bad values and either recover on the 
+same peak or another one. If this process runs long enough it is 
+guaranteed that it will find the global maximum.  But the program is not 
+searching the tree-likelihood maximum, it searches through the space 
+defined by $\prob(\mathcal D\ |\ \G) \prob(\G\ |\ \P)$ 
+and its maximum is not necessarily at the highest tree likelihood. 
+The ``histogram" (07V, 08V) of the $ \prob(\G\ |\ \P)$ reflects this. 
+The histogram is scaled so that the best value is 0. 
+%$$ 
+%\frac{\prob(\G\ |\ \P)}{\prob(\G\ |\ \P_0)}.
+%$$
+If most of the values are in the topmost class the estimate is
+probably in good accordance with the trees, otherwise the process
+should run longer.  Of course if all genealogies are in the topmost
+class one could wonder if the process is sampling different trees at
+all, but this can be checked with the acceptance ratio.  If the
+Acceptance ratio (13Y) drops below 10\% consider to run the program
+with ten time longer chains just to sample enough different
+genealogies, so that the parameter estimates are not governed by a few
+genealogies only.  
+\par 
+If the single locus maximization step needs
+more than 200 iterations (09V), please send a report, then it should
+find most of the time the maximum in fewer than 50 iterations.  
+\par
+If you have chosen to discard the first few trees using
+{\bt{burn-in=value}}, you will see line (3Y).
+
+\subsection{Bayesian inference}
+The output for Bayesian inference is more terse, but the same rules apply, except that you should run only one long run because the prior distribution
+will deliver many different ``driving" values, convergence issues are still present but less severa as in the ML approach. Under Bayesian inference the effective
+sample size and autocorrelation are printed out and give a good idea about how well the run succeeded. The example below is a long parallel run of mutiple microsatellite loci and replication for a total of 180,000,000 updates.
+\begin{center}
+\includegraphics[width=\textwidth]{mim/ess_auto}
+\end{center}
+\vskip 1cm
+\section{Run time and accuracy}
+If you have looked in the menu {\tt Search Strategy} then you saw that
+we distinguish between short and long chains. Since the MCMC process
+is going from a not so good estimate (the first guess, you specify in
+{\tt Start values for Parameters}) to a better estimate along a
+``gradient'' on the likelihood surface, the success in recovering the
+best parameters is driven by the steepness of this surface. This means
+if there is few information in the data, the likelihood surface will
+be flat and the estimation process need a long time to wander to a
+peak (if at all) . The short chains allow for a burn-in period in
+which the the trees and the parameters can equilibrate, for the final
+estimate we use only the last of the long chains. The necessary length
+of these chains is specified by the number of individuals, length of
+sequences and variability of the data. There are no good estimates
+what a good length for the final chains should be
+\par
+For {\it Migrate} it seems that in simulated datasets with around 20
+individuals and 10 ``electrophoretic'' loci the truth can be
+recovered.
+\par
+During my simulations for the paper on {\tt Migrate} \citep{Beerli:1999:MLE}, I detected problems 
+with the accurate estimation of the migration rate with
+start to be obvious with very long sequences (say above 1000bp). 
+The first tree is constructed using an UPGMA topology and a Fitch algorithm to 
+insert the migrations. This process will insert a minimum of migrations 
+onto the tree.
+If now the sequences define a good topology for your guessed start 
+parameters the program will tend to be stuck with this starting tree.  This is
+fine for estimating the population size, but the migrations are not 
+well distributed on the tree. 
+I recommend that you run longer chains and watch the 
+acceptance-rejection, if the program finds about 200 new trees for short chains and about 2000 trees for long chains or more  then the estimation process should be fine.
+If in your initial run you see acceptance ratios of only around 2\% you should 
+definitely increase the length of the chains, or use the option {\bt{ moving-steps}}. 
+When after some runs
+you see that the program returns hugely different values, for example
+the profile likelihood curves exclude the parameter estimates of other
+runs, you should also consider running multiple chains 
+at different temperatures or use replication (see {\bf Search Strategy}).
+Most likely, there are
+sets of genealogies that are not that well connected and with short
+chains the program will settle in one solution. 
+Currently there is no way to check
+which of the independent runs fits the data better because the 
+reported likelihoods are relative and not absolute and this makes 
+it impossible to compare different runs. 
+
+\section{Quick guide for achieving ``good'' results with {\tt migrate}}
+Of course this is not a fool proof guide, then it's easy to give advice with 
+data simulated using the same sequence model as the inference program.
+\par
+{\bf FIRST: make sure that your data is correct}. Miscounts of individuals,
+sequence length, number of loci etc can produce funny errors.
+\begin{itemize}
+\item Set parameters in the {\bf Search Options} to very low values, 
+e.g to something
+below 100 for sampling increment and the chains to something like 2, also
+Turn off the profile and plot option, but set {\tt print the data}
+ in the {\bf Input/Output} menu.
+\item run the program an check if the number of individuals read is correct,
+and if all the data was read, and if the program produces numbers 
+in the output. If the program crashes before the menu there is an error 
+in the {\tt parmfile}, if it crashes shortly after the menu most likely 
+there is some error in
+the infile. If it crashes at the end, most likely there is a programmer's 
+bug :-(.
+\item Once it is clear that the program is able to run, use the default options
+to start a first run. If you have written a {\tt parmfile} you should rename 
+or destroy it.
+\end{itemize}
+
+Monitor the progress by looking at the intermediate parameter estimates:
+\begin{itemize}
+\item Check the log on the screen or the logfile, if the data-likelihood of 
+the start tree for each chain is always improving then consider to lengthen 
+the increment between the sampled genealogies (e.g. {\tt short-inc=100}) or
+supply 
+your own distance matrix ({\tt distfile} option), or give own starting 
+values or run more short chains (e.g. {\tt short-chain=20}).
+\item Gelman's convergence criterium: My implementation of this criteria
+is not completely correct, then \migrate\ is using two consecutive chains
+to calculate the criterium, whereas Gelman used chains with ``overdispersed'' 
+starting points. If the values are close to 1 (Gelman uses $R < 1.2$) then 
+we can assume that the chains are sampling from the stationary distribution 
+and that our parameter estimates are OK, but of course, this is no guarantee
+for success then when the sampler is sampling only around one probability mountain and
+does not know that another much higher mountain exist, the results will be wrong.
+\end{itemize}  
+But, besides monitoring progress, I would:
+\begin{itemize}
+\item Run {\it Migrate} with the default values using ${\rm F_{ST}}$ to find
+the start parameters.
+\item Rerun, using the obtained parameter estimates of the last run. Be careful not to take this advice too literally: start parameters of zero (0.0) are very bad starting points for parameters where you expect nozero values, if the preliminary run suggests a parameters is zero, use some arbitrary value: for example for $\Theta$ and DNA data I would use 0.005 
+\item If the results do not change much , perhaps you can stop. Otherwise
+increase the length of the chains, increasing the increment 
+({e.g. \bf short-inc=100} and {\bf long-inc} does not
+increase memory usage, but run-time. 
+You can also increase the number of sampled
+genealogies ({\bf short-sample} or {\bf long-sample}).
+E. g. increase it by a factor of 10.
+\item Change the random number seed and check if you get similar results.
+\item Use the heating scheme if you get wildly different results and
+have low acceptance ratios.
+\item Run with {\tt replicates=YES:10} and perhaps also using
+{\tt randomtree=YES}, but beware this will run 10x longer then your single
+run.
+\item Microsatellite and Electrophoretic data should experiment with
+lowering the number of sampled genealogies (if they have many loci), because
+otherwise the runs will take forever, try to run migrate on a parallel machine 
+(based on MPI) that would distribute the loci
+onto different machines, read the chapter "Parallel migrate".
+\end{itemize}
+

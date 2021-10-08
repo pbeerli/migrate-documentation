@@ -1,0 +1,97 @@
+\documentclass[11pt,titlepage]{report}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\def\VERSION{4.x}
+\def\versiondate{\today}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{head}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\normalfont \sffamily
+\renewcommand{\familydefault}{\sfdefault}
+\thispagestyle{empty}
+\begin{picture}(0,0)(0,0)
+\put(-50,-500){\includegraphics[scale=8.0]{mim/migrate_logo}}
+\put(10, -490){\rotatebox{90}{{\riesig Migrate}~~~ {\gross Documentation}}}
+\put(340, -487){\rotatebox{90}{{\gross Version \VERSION}}}
+\end{picture}
+\begin{flushright}
+\vskip 17.5cm
+{\large \sl {Peter Beerli}\\
+Department of Scientific Computing\\
+Florida State University\\ Tallahassee, FL 32306-4120}\\
+{\footnotesize email:beerli@fsu.edu}\\
+%\vskip 0.2cm
+\textbf{Last update: \versiondate}\\
+Started: January 1, 1997
+\end{flushright}
+\newpage
+{\Large {\bf For the impatient}}\\
+\vskip 0.2in
+Reading manuals is not a favored task of many, me included. But to
+achieve some results with {\tt migrate} you should read at least
+the sections about
+\begin{itemize}
+\item {\bf Data file specifications}
+\item {\bf Quick guide for achieving ``good'' results with {\tt migrate}}.
+\end{itemize}
+\unitlength=1mm
+\begin{picture}(0,0)(0,0)
+\put(110,-50){\includegraphics[width=6cm]{mim/read}}
+\end{picture}
+
+\vskip 0.2in
+Good luck,\\
+Peter Beerli      Tallahassee, July 2020
+\vskip 4cm
+%Improved parts in this manual (\today)
+%\begin{itemize}
+%\item Rewrote several section, and removed the likelihood centric approach, \migrate 4.0 does only support Bayesian inference.
+%\item Added new sections:  Population splitting, Individual assignment, haplotyping, new data format.
+%\item Tipdate support and skyline plots.
+%\item Corrected wrong instructions on fragment length translation to repeat length for microsatellites
+%\item Clarification in the Data models about the combination of multiple loci.
+%\item FAQ: added an example for triploid microsatellite data input
+%\end{itemize}
+
+%Unfinished parts in this manual (\today)
+%\begin{itemize}
+%\item Proposal distribution (Slice sampling versus Metropolis-sampling)
+%\item Prior distributions: choice and problems
+%\item Marginal likelihoods and Bayes Factors
+%\item Migration event statistics
+%\item Hardware support: parallel runs on Macintosh computers 
+%\item Tip date support
+%\item Skyline plot support
+%\end{itemize}
+
+\newpage
+\tableofcontents
+\pagenumbering{arabic}
+\input{introduction}
+\input{theory}
+\input{files}
+\input{datamodels}
+\input{datafile}
+\input{optionsmenu}
+\input{run}
+\input{bayes}
+%\input{ml}
+\input{bf}
+\input{performance}
+\input{quick}
+\input{outfile}
+\input{install}
+\input{faq}
+%\input{credit}
+\input{literature}
+\input{history}
+ \end{document}
+
+
+
+
+
+
+
+
+

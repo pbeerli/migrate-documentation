@@ -1,0 +1,19 @@
+\chapter{Model selection}
+[This section is not finished] \migrate allows to calculate the probability of the model using three approaches:
+\begin{enumerate}
+  \item Akaike's information criterion (AIC) for maximum likelihood inference
+ An option the parmfile allows to turn on a search for all migration model that are subsets of the model that was used to sample genealogies [this may break on several models with low number of estimated parameters]. 
+This option may use a very long time (longer than you want to wait) when there are more than 4 (!) populations. The number of migration models increases hyper-exponentially with number of populations, AIC tests with more than 6 populations will take forever. These tests are only approximate because only the full model was evaluated through the MCMC run. 
+% \begin{small}
+% \begin{verbatim}
+% insert example
+% \end{verbatim}
+% \end{small} 
+ 
+  \item Bayes factors
+  Bayes factors evaluate the merit of hypotheses and models in a Bayesian context. BF do not need to compare nested hypotheses (necessary for likelihood ratio tests). Evaluating Bayes factors is problematic because the marginal likelihoods needed to calculate the BF are difficult to evaluate. In a Bayesian inference program we normal only need to record the parameter values to construct the posterior distribution (histogram). For the marginal likelihood we need to estimate the denominator of the Bayes formula, we can integrate by recording all priors and likelihoods. Two methods are implemented in MIGRATE:
+ \begin{enumerate}
+  \item Harmonic mean estimator: described by Kass and Raftery (1996) . This method is know to be fast but inaccurate. It is implemented in many other programs (BEAST/Tracer, MrBayes)
+  \item Thermodynamic integration: described by Gelman and Meng (2003). This method needs multiple chains that run at different temperatures (use static heating because the other methods are not well explored yet). This methods can be very accurte but time consuming.
+\end{enumerate}
+\end{enumerate}

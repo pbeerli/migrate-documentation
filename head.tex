@@ -1,0 +1,172 @@
+% !TEX root = migratedoc.tex
+%\special{header=duplex.ps}
+%\usepackage{utopia}
+\usepackage{palatino}
+%\usepackage{html}
+\usepackage{amsmath,amsfonts,amssymb,verbatim,boxedminipage,xspace}
+%,afterpage}
+\usepackage{wrapfig}
+\usepackage{natbib}
+\usepackage{graphicx}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%DEFINITIONS
+%
+\renewcommand{\labelitemi}{\includegraphics[width=2mm]{mim/bullet}}
+
+%%%%%%%\begin{latexonly}
+\newcommand{\mychapter}[1]{\chapter*{#1}
+\addcontentsline{toc}{chapter}{#1}
+}
+\newlength{\titlewidth}
+\renewcommand{\chapter}{\secdef \newchaptera \newchapterb}
+\newcommand{\newchaptera}[2][default]{%
+	\settowidth{\titlewidth}{{\Huge\sf\bfseries #2}}
+	\addcontentsline{toc}{chapter}{\protect\numberline{}#1}
+	{\newpage\flushleft
+%\rule[0.7\baselineskip]{\titlewidth}{1mm}\\ \vspace{0.2cm}
+	\bfseries\Huge\sf #2\\ \vspace{1cm}
+%	\rule[0.7\baselineskip]{\titlewidth}{1mm}\\ \vspace{5cm}
+}
+}
+\newcommand{\newchapterb}[1]{%
+	\settowidth{\titlewidth}{{\Huge\sf\bfseries #1}}
+	{\newpage\flushleft
+%\rule[0.7\baselineskip]{\titlewidth}{1mm}\\ \vspace{0.2cm}
+	\Huge\sf\bfseries #1\\ \vspace{0.5cm}
+%	\rule[0.7\baselineskip]{\titlewidth}{1mm}\\ \vspace{5cm}
+}}%%%%
+
+\renewcommand{\section}{\secdef \newsectiona \newsectionb}
+\newcommand{\newsectiona}[2][default]{%
+	\addcontentsline{toc}{section}{\protect\numberline{}#1}
+	{\flushleft\large\sf\bfseries #2\\\rule[0.7\baselineskip]{\textwidth}{0.5mm}}}
+\newcommand{\newsectionb}[1]{%
+	{\flushleft\large\sf\bfseries #1\\\rule[0.7\baselineskip]{\textwidth}{0.5mm}\vspace{\baselineskip}}}%%
+
+\renewcommand{\subsection}{\secdef \newsubsectiona \newsubsectionb}
+\newcommand{\newsubsectiona}[2][default]{%
+	\addcontentsline{toc}{subsection}{\protect\numberline{}#1}
+	{\flushleft\large\sf\bfseries #2\\
+	~\\}}
+\newcommand{\newsubsectionb}[1]{%
+	{\flushleft\large\sf\bfseries #1\\
+	~\\}}
+\renewcommand{\subsubsection}{\secdef \newsubsubsectiona \newsubsubsectionb}
+\newcommand{\newsubsubsectiona}[2][default]{%
+	\addcontentsline{toc}{subsubsection}{\protect\numberline{}#1}
+	{\flushleft\sf\bfseries #2\\}}
+\newcommand{\newsubsubsectionb}[1]{%
+	{\flushleft\sf\bfseries #1\\}}
+%%%%%%%%%\end{latexonly}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\makeatletter
+\DeclareRobustCommand{\migrate}{{\sc migrate}\xspace}
+\makeatother
+
+\makeatletter
+\DeclareRobustCommand{\phylip}{{\sc PHYLIP}\xspace}
+\makeatother
+
+\makeatletter
+\DeclareRobustCommand{\fastmigrate}{{\sc{fastmigrate}}\xspace}
+\makeatother
+
+\makeatletter
+\DeclareRobustCommand{\genetree}{{\sc{genetree}}\xspace}
+\makeatother
+
+\makeatletter
+\DeclareRobustCommand{\lamarc}{\textsc{lamarc}\xspace}
+\makeatother
+
+\makeatletter
+\DeclareRobustCommand{\beast}{{\sc Beast}\xspace}
+\makeatother
+
+\makeatletter
+\DeclareRobustCommand{\IM}{\textsc{IM}\xspace}
+\makeatother
+
+\makeatletter
+\DeclareRobustCommand{\tracer}{\textsc{Tracer}\xspace}
+\makeatother
+
+\makeatletter
+\DeclareRobustCommand{\hapmap}{\textsc{HapMap}\xspace}
+\makeatother
+
+\makeatletter
+\DeclareRobustCommand{\mathematica}{\textsc{Mathematica}\xspace}
+\makeatother
+
+\newcommand{\bt}[1]{{\bfseries #1}}
+\def\Cplus{C\kern-.1667em{\small +}\kern-.1667em{\small +}}
+\def \smallerskip{\vskip 0.1in}
+\def \smallskip{\vskip 0.25in}
+\def \medskip{\vskip 0.4in}
+\def \bigskip{\vskip 1.0in}
+\newcommand{\prob}{{\rm p}}
+\def\lit#1{\item[#1]}
+\def\fst{$\sf F_{\sf ST}$}
+\def \M{\mathcal{M}}
+\def \P{\mathcal{P}}
+\def \G{\mathcal{G}}
+\def \Dd{{ \mathcal D}}
+\def\ma{Maximum likelihood analysis}
+\def\ba{Bayesian analysis}
+\def\ten{\qquad \qquad}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% CHANGES IN LAYOUT
+\renewcommand{\baselinestretch}{1.0}
+\parindent=0pt
+\pagenumbering{roman}
+\parskip=0.1in
+%\renewcommand{\theequation}{\arabic{equation}}
+%\renewcommand{\thefigure}{\arabic{figure}}
+%\lhead{}
+%\rhead{}
+%\chead{\begin{bfseries} \sf {\it Migrate} documentation \end{bfseries} }
+%\rfoot{}
+%\lfoot{}
+%\cfoot{C \thepage}
+%\setlength{\headrulewidth}{0.4pt}
+%\setlength{\footrulewidth}{0.4pt}
+\setlength{\hoffset}{-0.7in}
+\setlength{\voffset}{-0.3in}%-0.3in
+\setlength{\topmargin}{-0.2in}%
+\setlength{\headheight}{12pt}
+%\setlength{\oddsidemargin}{0in}
+%\setlength{\evensidemargin}{0in}
+\setlength{\textwidth}{6.5in}
+\setlength{\textheight}{8.7in}%9.3in
+%\setlength{\footskip}{36pt}
+%\setlength{\marginparwidth}{0in}
+%\setlength{\marginparpush}{0in}
+\font \riesig=cmssbx10 scaled 3000
+\font \gross=cmssbx10 scaled 2000
+\font \courier=pcrb scaled 2000
+
+\newcommand{\entrylabel}[1]{\mbox{{\rm #1}}\hfill}
+\newenvironment{entry}[1]
+{\begin{list}{}%
+{\renewcommand{\makelabel} {\entrylabel}%
+\setlength{\labelwidth}{#1}%
+\setlength{\leftmargin}{#1}%
+\addtolength{\leftmargin}{2mm}
+\setlength{\parsep}{0pt}
+}% 
+}%
+{\end{list}}
+
+\def\token#1{$<${\tt #1}$>$}
+
+\def\myabstract#1{\begin{center}
+\begin{minipage}[c]{10cm}%
+{\sl
+#1
+}
+\end{minipage}
+\end{center}
+\vskip 1cm
+}

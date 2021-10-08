@@ -1,0 +1,372 @@
+\chapter{Frequently asked questions}
+This section will increases when I get more feedback.
+The order of the questions/answers  is probably random or historical. 
+\section{Questions}
+\subsection{General}
+\begin{enumerate}
+\item I cannot find the program executable? I double-click the program icon but nothing happens?
+\item The program crashes! Your program has a bug!
+\item The program crashes with large but not with small data sets, 
+what is wrong?
+\end{enumerate}
+
+\subsection{About the datafile}
+\begin{enumerate}
+\item I need more input about how microsatellites are coded in migrate?
+\item How can I code haploid data for {\it Migrate}?
+\item Can I use haplotype frequencies as input?
+\item Can I use gene frequencies as input?
+\end{enumerate}
+\subsection{About options and how to run}
+\begin{enumerate}
+\item It runs with the default number of chains etc. Has it run
+long enough?
+\item How long does it run?
+\item Can migrate run on multiple machines in parallel?
+\end{enumerate}
+
+\subsection{About reading the outfile}
+\begin{enumerate}
+\item I have haploid data, what is $\Theta$?
+\item I have mtDNA sequence data, what is $\Theta$?
+%\item{How should I interpret each of the 4Nm estimates for pair i,j?} 
+\item Why are the Likelihood values different between runs?
+\item Why do I have positive numbers in the Ln(L) column? 
+\item I have problems to understand what are the Null-hypothesis and the alternative hypothesis in the likelihood ratio test section.
+\item I run migrate several times and get inconsistent estimates.
+\item I run migrate and the population sizes are strangely high.
+\item I run MIGRATE using $\Theta$ and $M$ parameters but I want to calculate $2Nm$ (my data is a haploid lichen)?
+\end{enumerate}
+
+\section{Answers}
+\subsection{General}
+\begin{enumerate}
+\item {\bf  I cannot find the program executable? I double-click the program icon but nothing happens?}\\
+Some binary distributions contain migrate-n as command line tool and they
+need to be started from a Terminal program [or shell]. A typical migrate run on Macosx  operating systems involves to start of the Terminal.app (for tutorials
+about this see {\tt http://www.macdevcenter.com/pub/ct/51}, and then 
+change to the directory where the data resides, and then start {\tt migrate-n}.
+\item {\bf The program crashes! Your program has a bug!}\\
+Sure, this program most likley has some bugs, but more likely is that
+the {\tt infile} is not correct, and without more detail about 
+what went wrong there is 
+little hope for help. 
+\item {\bf The program crashes with large but not with small data sets, 
+what is wrong? [System description... + part of log]}
+\begin{itemize}
+\item General: Most often mistakes in the {\tt infile}, such as wrong number
+loci or populations or individuals or number of sites or using few characters for the individual names, let the program crash almost immediately after the 
+menu. Check the infile carefully and compare with the data file specifications.
+\item on Macintoshes: the preferred memory consumption of {\tt migrate} is set to 20MB RAM, for larger problems, such as many populations or 
+many loci or long chains, this can produce cryptic crashes (e.g. 
+{\tt Error in calloc() in file broyden.c line xxx}). Try increase the memory.
+You single-click the icon of {\tt migrate}, go to the {\tt File} menu and 
+choose {\tt Get Info} and in there {\tt Memory}. Set the {\tt preferred Size}
+to some higher value. If you have 128 MB RAM and your System is 
+consuming already around 30 MB, you can set the program up to something like 
+80 MB, but then if you run other programs it will swap parts of the RAM into
+virtual memory. If some part of {\tt migrate} are swapped into onto disk
+by the virtual memory manager the program will most likely not finish because
+because the program is slowed down to a crawl.
+\item on Windows: I need to know about this, but so fare the latest binaries,
+seem to have no trouble with preset memory.
+\end{itemize}
+\end{enumerate}
+\subsection{Data file related}
+\begin{enumerate}
+\item{\bf I need more input on how to code microsatellites for migrate}
+Assume you analyze two individuals for two msat loci (locus1 is a CA repeat,
+locus 2 a TCA repeat) that look like this
+\begin{tt}
+\begin{verbatim}
+     Primer 1     msat locus 1  
+     -------------              ------
+1A   ATTAGACATTGTGCACACACACACACATTGGAC
+1B   ATTAGACATTGTGCACACACACACACATTGGAC
+2A   ATTAGACATTGTGCACACACACACACATTGGAC
+2B   ATTAGACATTGTGCACACACA------TTGGAC
+
+     Primer 2     msat locus 2 
+     -------------              ------
+1A   ATTAGACATTGTGTCATCATCATCATCATCATCATCATCATCATCATCATCATCATTGGAC
+1B   ATTAGACATTGTGTCATCATCATCATCATCATCATCATCATCATCATCATCA---TTGGAC
+2A   ATTAGACATTGTGTCATCATCATCATCATCATCATCATCATCA------------TTGGAC
+2B   ATTAGACATTGTGTCATCATCATCA------------------------------TTGGAC
+\end{verbatim}
+\end{tt}
+in a migrate infile this would code (where / is a free chosen delimiter
+you can choose any character, but I recommend something like / . , or similar)
+\begin{tt}
+\begin{verbatim}
+  1 2 / Example of how to code migrate
+2 Example population with 2 diploid indiviudals
+1A1B______ 7/7 14/13
+2A2B______ 7/4 10/4 
+\end{verbatim}
+\end{tt}
+
+\item {\bf I have haploid allelic data, how should I structure my infile}\\
+Unfortunately, I was biased towards diploid data for microsatellite and 
+enzyme electrophoretic data and you need to fake diploids for the infile.
+Your microsatellite exampled data look like this:
+\begin{tt}
+\begin{verbatim}
+      Locus1 Locus2 Locus3 Locus4 Locus5
+Ind1   11      45     14     15     89
+Ind2   11      47     13     15     67
+Ind3   11      43     13     15     67
+Ind4   12      47     13     15     73
+Ind5   11      45     13     15     89
+\end{verbatim}
+\end{tt}
+And your {\tt infile} should look like this
+\begin{tt}
+\begin{verbatim}
+   2  5  . Example input for haploid microsatellite data
+5  Fake diploid population 1
+Ind1      11.?      45.?     14.?     15.?     89.?
+Ind2      11.?      47.?     13.?     15.?     67.?
+Ind3      11.?      43.?     13.?     15.?     67.?
+Ind4      12.?      47.?     13.?     15.?     73.?
+Ind5      11.?      45.?     13.?     15.?     89.?
+4 Fake diploid population 2
+..data not shown..
+\end{verbatim}
+\end{tt}
+Or
+\begin{tt}
+\begin{verbatim}
+   2  5  . Example input for haploid microsatellite data
+3  Fake diploid population 1
+Ind1Ind2   11.11 45.47 14.13 15.15 89.67
+Ind3Ind4   11.12 43.47 13.13 15.15 67.73
+Ind5????   11.?  45.?  13.?  15.?  89.?
+4 Fake diploid population 2
+..data not shown..
+\end{verbatim}
+\end{tt}
+The ``?'' are removed for the analysis (But recognize that in sequence data the 
+? are not removed.
+
+\item {\bf I have triploid (polyploid) allelic data, how should I structure my infile}\\
+Unfortunately, I was biased towards diploid data for microsatellite and 
+enzyme electrophoretic data and you need to fake diploids for the infile.
+Your microsatellite exampled data look like this:
+\begin{tt}
+\begin{verbatim}
+           Locus1     Locus2
+Ind1   11.11.12   45.45.45  
+Ind2   11.12.12   47.45.45  
+Ind3   11.10.10   43.45.?     
+Ind4   12.12.12   47.45.47  
+Ind5   11.11.10   45.45.43  
+etc.
+\end{verbatim}
+\end{tt}
+And your {\tt infile} should look like this
+\begin{tt}
+\begin{verbatim}
+   2  2  . Example input for triploid microsatellite data
+5  Fake diploid population 1
+Ind1      11.11   45.45
+Ind12     12.11   45.45
+Ind2      12.12   47.45 
+Ind3      11.10   43.45     
+Ind34     10.12    ?.47
+Ind4      12.12   47.45  
+Ind5      11.11   45.45  
+Ind5x     10.?    43.?
+4 Fake diploid population 2
+..data not shown..
+\end{verbatim}
+\end{tt}
+
+\item{\bf Can I use haplotype frequencies as input?}
+No, input formats are a rather arbitrary matter, and I decided that
+you need to input each single sequence of genotype. I principle it
+would be easy to add a ``frequency'' input mode, but currently
+I have not time to do that. But keep asking for it, if this is so
+important to you.
+\item{\bf Can I use gene frequencies as input?}
+No, not yet, this is on the todo list, but has a rather low
+priority. To circumvent the problem, you can create artificial 
+genotypes for the infile. The genotypes themselves are not important.
+A simple script that assigns alleles to individuals will do, this
+can be written in almost any scripting language from excel (yikes!),
+word-macro (yikes!), Perl, C, C++, applescript, Mathematica, ... for throw away programs I use Python\footnote{freely available for Windows, Mac, and UNIX, check http://www.python.org}, Mathematica\footnote{nice,but not free software},  or C\footnote{freely available for almost all systems see http://www.gnu.org [Free Software Foundation]}.
+\end{enumerate}
+
+\subsection{About options and how to run}
+\begin{enumerate}
+\item {\bf It run with the default number of chains etc. Has it run
+long enough?}\\
+this depends on the number of populations you want to analyze.
+If you have one it will be almost certainly enough. But if you
+try to analyze 6 or more it almost certainly will not. You need to experiment a little with the length of chains. See chapter 3 (Accuracy of results).
+\item {\bf How long does it run?}\\
+With {\tt progress=Yes} [do not use progress=Verbose] the program tries to estimate the length
+of a run from the work it has done so far, after the first short chain
+this may be rather imprecise, but you may realize that you need to
+wait minutes or days (just imagine you estimate the time to travel
+from Spokane to Seattle in a car and estimate when you will arrive
+only using the distance and time you have finished already).
+The time calculated is only based on the genealogy
+search, and does not include the time to create the plots for each
+locus and population. Therefore, if you have many populations and many loci
+you can expect to wait longer than the time stamp indicates. There is
+an additional time estimate for the profile-likelihoods.
+\item {\bf Can migrate run on multiple machines in parallel?}\\
+{\bf Short answer:} YES. {\bf Long Answer 1:} If you use the {\tt heating} option
+and your machine is a symmetric multiprocessor machine and you 
+compiled with {\tt make thread} or {\tt make} on MacOS 10.6 then the program will utilize $n$ 
+processors. This will improve the heated search by about a factor of $n$
+, also the performance degrades somewhat the more threads are running
+concurrently.
+{\bf Long Answer 2:} Yes, on UNIX systems (inclusive MacOSX) you can use a parallel virtual machine, for example OpenMPI (see their website: http://www.openmpi.org)
+and compile migrate with "configure; make mpis" (or similar see by typing "configure") you need the MPI libraries that come with
+the above environment (see {\tt HOWTO-PARALLEL}). Or you 
+can do it yourself manually. See
+the file {\tt HOWTO-PARALLEL}.
+\end{enumerate}
+
+\subsection{About reading the outfile}
+\begin{enumerate}
+\item {\bf I have haploid data, do I have to multiply my $\Theta$, $\mathcal{M}$ and $4Nm$?}\\
+The $\Theta$ you get with haploid data is $\Theta=2N_e\mu$. Comparing with other values for haploid data should be fine, but you need to multiply
+when you compare it with a $Theta$ from diploid data.
+\\
+\item {\bf I have mtDNA data, do I have to multiply my $\Theta$, $\mathcal{M}$ and $4Nm$?}\\
+See question above, but in most vertebrates mtDNA is only passing through the maternal
+lineages and is haploid, for a comparison with diploid data 
+you should multiply by 4.
+
+%\item{\bf How should I interpret each of the 4Nm estimates for pair i,j? 
+%Then, can I take 17 times (for 18 demes) this number as $4\times N_i\times\text{(migration rate into i)}$} \\	
+
+%If you used the constraint that all migration rates are the same then you can multiple 
+%The overall immigration rate into i is
+%$$
+%\text{total immigration rate into population i} = \sum_{j \ne i} 4N_e^{(i)}m_{ji}
+%$$
+%but I personally tend to report 
+%$$
+%\mathcal{M}_{ji} = m_{ji}/mu = 4 N_e^{(i)}m_{ji}/\Theta_i
+%\text{or} \mathcal{M}_{.i} =\sum_{j \ne i} \mathcal{M}_{ji}
+%$$
+\item {\bf Why are the likelihoods between runs different?}\\
+The likelihoods are really ratios
+$$
+\frac{L(\P)}{L(\P_0)} = \frac{1}{m}\sum_i^m\ \frac{ \prob(D\ |\ g_i)\ \prob( g_i\ |\ \P)}
+{\prob(D\ |\ g_i)\ \prob( g_i\ |\ \P_0)}.
+$$
+and we run several chains and update the $\P_0$ between chains.
+For a comparison we would need that
+the second last chain of each run delivers exactly the same
+parameters, which we then would use for the comparison. A possibility is
+to run only one long chain in each run with some given parameters
+$\P_0$. This not really recommended if the start values are not
+very close to the true parameters.
+
+\item {\bf  Why do I have positive numbers in the Ln(L) column? }\\
+See also question before.
+the Ln(L) is actually a ratio (see Beerli and Felsenstein 1999, we have a
+derivation of this ratio in the appendix, but this can be found in 
+statistics books that talk about MCMC)
+In our case we try to maximize 
+$$
+L(\mathcal{\text{parameters}}) = \sum_i^{\text{all trees}}\ 
+\text{Coalescence-Prior(tree$_i|$ parameters)} 
+\text{Data-Likelihood(data$|$ tree$_i$)} .
+$$
+its MCMC derivation is 
+$$
+\frac{L(\P)}{L(\P_0)} = \frac{1}{m}\sum_i^m\ 
+\frac{\text{Coalescence-Prior(tree$_i|$parameters)}}
+{\text{Coalescence-Prior(tree$_i|$driving parameters)}} .
+$$
+In fact, the $ln(L)$ should be rather close to 0.0, 
+but this is dependent on the number
+parameters (I think) that produce noise, 
+with many parameter it will be not very close
+to 0.0, but with just one param (single population) the value
+is more like 0.00x, with 16 parameter it seems more like 5-30. 
+If you have more than one locus then it is likely that when 
+they produce rather different results, that the value will go negative.
+
+\item {\bf I have problems to understand what are the Null-hypothesis and the alernative hypothesis in the likelihood ratio test section?}
+The easiest way to answer is with an example:
+Assume you just run {\tt migrate-n} and got the following results:
+$\Theta_1=0.003$, $\Theta_2=0.05$, $4N_1m_{21}=0.5$, and  
+$4N_2m_{12}=3$. Tis assumes that you changed in the parameter setting to estimate $xNm$ instead of $\mathcal{M}$. Before version 2.0 the default was to estimate $xNm$, now the default is to estimate $\mathcal{M}$.   I assume that you want to test whether the population sizes are the 
+same or not and if the migration rates $m$ are the same or not.
+This would ask for a Null-hypothesis so that $\Theta_1=\Theta_2$ and
+$\mathcal{M}_{21}=\mathcal{M}_{12}$ [$\mathcal{M}=m/\mu$]. 
+Recognize that we would use here
+$\mathcal{M}$ and {\bf not} $4Nm$, with your specific parameter setting, the LRT input expects $Nm$ values.
+The Alternative hypothesis is then $\Theta_1 \ne \Theta_2$ and
+$\mathcal{M}_{21} \ne \mathcal{M}_{12}$. For this above test you can specify the LRT-input in several ways:
+\begin{itemize}
+\item l-ratio=MLE:m, m, m, m [easiest]
+% M21=0.5/0.003, M12=3/0.05
+\item l-ratio=MLE:0.0265, 0.0265, 3.0,3.0
+\end{itemize}
+For the second example, you need to calculate by hand first
+the $\mathcal{M}$ and then from that recalculate the $4Nm$ when
+the $\mathcal{M}$ are the same, I used the averages.
+
+If the run would be default run with estimates $\Theta_1=0.003$, $\Theta_2=0.05$, $\mathcal{M}_{21}=166.66$, and  $\mathcal{M}_{12}=60$. then the  LRT would look like this:
+\begin{itemize}
+\item l-ratio=MLE:m, m, m, m 
+% M21=0.5/0.003, M12=3/0.05
+\item l-ratio=MLE:0.0265, 0.0265, 113.33,113.33
+\end{itemize}
+
+
+
+\item {\bf I run migrate several times and get inconsistent estimates.}
+If the profile confidence intervals of a run exclude other runs, then you should run
+the program longer by increasing short-inc and long-inc and short-sample and long-sample.
+In addition you should try to do replicates (for example replicate=YES:10) and also use
+heating (heating=YES:1:{1,1.5,3,10000}), if you still have problems I would like to hear about this.
+I have seen datasets were people tried to estimate several parameters with very short sequences that
+when run properly delivered confidence intervals with rather unwelcome confidence intervals from
+close to zero to very large values (>10$^{10}$).
+\item {\bf I run migrate and the population sizes are strangely high.}
+If the likelihood surfaces are very flat than migrate might err onto regions that deliver to high population sizes.
+if this happens in a short chain than the program will rarely be able to return to more reasonable values.
+You need replication and heating (see question about inconsistent estimates above). I am biasing starting in version 1.5
+towards the driving parameters (the parameters you use to run a chain), so that it will be harder for the program to
+climb to ureasonable high values, but it will go there if your data suggests such values. Although I do not believe that
+$\Theta > 10$ are reasonable [remember our $\Theta$ is {\bf site} and not by locus for sequence data.], your data might
+violate assumptions of migrate (and also of FST) that make it hard to get correct estimates. 
+
+\item{\bf  I run MIGRATE using $\Theta$ and $M$ parameters but I want to calculate $2Nm$ (my data is a haploid lichen)?}
+
+To calculate 2Nm for the haploid lichen-forming fungus for population 1, I have to multiply the theta of population 1 by the IMMIGRATION rate into population 1. Is that correct?
+
+In other words, if a M matrix is set up as in the Migrate manual,
+\begin{verbatim}
+- 	M2->1	M3->1	     -    10    100	
+M1->2	-	M3->2   =    20    -     30
+M1->3	M2->3	-            90    3      -
+\end{verbatim}
+
+and the thetas are\\
+theta1=0.01,\\
+theta2=0.001,\\
+theta3=0.0001
+
+This is what I should get for the 2Nm:\\
+$2Nm[2->1] = theta1 * M2->1 = 0.01*10$\\
+$2Nm[3->1] = theta1 * M3->1 = 0.01*100$
+
+So the final 2Nm matrix would look like\\
+- 	0.1 	1\\
+0.02 	- 	0.03\\
+0.009 	0.0003 	-\\
+
+\end{enumerate}
+
+
+
+

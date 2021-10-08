@@ -1,0 +1,34 @@
+\chapter{Bayesian inference}
+From a practical viewpoint we can think of Bayesian inference of a combination of knowledge: the prior knowledge and the knowledge gained through the data and model.  The prior knowledge is used to to treat the parameters of interests as random variables with a distribution that is typically independent of our investigation, the prior distribution. The posterior distribution is the product of the prior distribution and the probability of the data given the parameters (the likelihood). 
+The prior distribution needs to cover the interesting part of the range of the parameters, essentially the posterior distribution should fit within the range of the prior distribution. It is important to inspect the posterior for probably truncation by the prior, if that occurs ou should rerun the analysis. If the prior is much larger than the parameter region of interest, in many circumstances the analysis will take a long time because most values proposed from the prior do not fit well with the data and are rejected. 
+%(see Figure \ref{bayes}}
+%\begin{figure}
+%\begin{center}
+%\includegraphics[width=\textwidth]{mim/bayes}
+%\caption{Prior distribution affects the posterior distribution:(a) the prior is not covering the interesting range, (b) good prior, (c) the prior is weak, (d) the prior is very strong}
+%\label{bayes}
+%\end{center}
+%\end{figure}
+
+\section{Prior distribution}
+Currently there are three distributions available: uniform, exponential  with boundaries, 
+exponential with boundaries and windowing:
+\begin{description}
+  \item[Uniform prior] You need to specify a lower and an upper bound, this prior distribution is similar to other programs, such as those by Hey and Nielsen (2004). Uniform assume that all parameter values are equally likely, an assumptions that often is not justified. 
+  \item[Exponential prior with boundaries] This proper prior distribution (it integrates to 1) needs a lower and and an upper bound and a mean, if one specifies $0.0$ and $\infty$ as boundaries, this distribution is the same as a simple exponential distribution. Preliminary runs show that this distribution is superior (aka converges faster) than the uniform distribution prior. Typically the boundaries are chosen so that there is a large set of possible values in between, the method is picking randomly in this range and so from one step to the next large differences in parameter values can occur, this large differences might lead to a larger rejection rate.
+  \item[Exponential prior with boundaries and window] Same as exponential prior with boundaries except that you need to specify an additional parameter that specifies the window size in from which changes in parameters are drawn. The chain will  less often reject parameter values because they will be closer to the last value. This prior distribution seems to produce the best results so far, but it needs some fidgeting with the window. If the window is too small very long chains need to be run to explore the whole distribution, if the window is too large than the method reduces to the exponential prior with boundaries. 
+\end{description}
+
+\section{Proposal distribution: Slice sampling versus Metropolis-Hastings sampling}
+\migrate allows to use two different proposal functions for the evaluation of the parameters, but only one for the evaulation of genealogies: Metropolis-Hastings sampling \cite{metropolis:1953:ESC} and Slice sampling \citep{Neal:2003}. Metropolis-Hastings (MH) sampling is standard in most applications in population genetics, but Slice-sampling is not. I know that Paul Lewis (University of Connecticut) is working on a phylogeny program that uses slice-sampling but I have not see the program in the wild. Paul helped me to understand the slice-sampling method in 2006 at the molecular evolution workshop in Woods Hole.
+Slice sampling uses the data and the prior distribution to choose a new prior value, because the data already is comaptibel with this new value a MH-rejection step is not necessary and the new value is always accepted. In contrast to that, MH-sampling picks a value from the prior and then uses the data later in the rejection-acceptance step to accept or reject the new value. Experiments have shown that slice-sampling converges  typically faster and produces smoother posterior distributions with less steps on the MCMC chain.
+
+\section{Posterior distribution}
+\migrate\ prints a file \textsl{bayesfile} that contains the raw histogram values for all parameters, the columns in that file allow to use  graphing program such as GNUPlot (http://www.gnuplot.info/) to plot the distribution. My favored program to plot such graphs is GMT (General mapping tool, http://gmt.soest.hawaii.edu/) that produces postscript output, in the contribution directory I added a shell script
+(sorry, no MS Windows utility) that uses GMT and that produces posterior distributions that display the 95\% credibility set. 
+
+\migrate also allows to save the raw parameter values that are used for the posterior distribution (\textsl{bayesallfile}). This file contains all information necessary to recreate the posterior histograms from scratch, This file also is compatible with the program \tracer \citep{Rambaut:2007} when you analyze a single locus without replication. There is a command line utility in the contribution directory. This utility \textsl{mba} allows to separate the large bayesallfile into files per locus and replicates. It also allows the assembly of different files, that can then be feed back to \migrate to recreate the posterior histograms.
+If you run \migrate on a cluster in parallel use turn on this option because the memory footprint of \migrate is much smaller than when this option is turned off. 
+
+\section{Prior distributions: choice and problems}
+to come

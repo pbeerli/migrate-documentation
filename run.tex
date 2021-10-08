@@ -1,0 +1,24 @@
+\chapter{How to run \migrate}
+If you have compiled and installed the program successfully (see Installation) and your data is in a good format (section data format) and perhaps has the name infile, just execute
+\smallerskip
+\begin{tabular}{l l p{10cm}}
+Command & Parameters & Comments\\
+\hline
+{\tt migrate-n} &  & No option will take the default {\tt parmfile} if present\\
+{\tt migrate-n} &  parmfile.test & opens the file {\tt parmfile.test} if present otherwise creates a new file that can be save through the menu\\
+{\tt migrate-n} &  parmfile.test -menu & forces the program to show the menu\\
+{\tt migrate-n} &  parmfile.test -nomenu & forces the program to NOT show the menu and start running immediately (use the -nomenu option for batch scripts and batch queue system.
+\end{tabular}
+
+On some systems you need to call \migrate using {\tt ./migrate-n}.
+
+\smallerskip
+On most graphical systems you can start \migrate by double-clicking its icon, but the results are different among the different computer systems (Linux, MacOS 10, Windows). On Macs home directory and that is most likely not the location where your files sit. It is actually easier to open the Terminal.app (in /Applications/Utilities) and 
+learn a couple of shell commands (a minimal set of cd, mv, cp will probably do for a start) (see for example this online tutorial http: ). Within the terminal window you change to the directory with the data and then execute the program that either is in the same folder using the commands above. For windows double-clicking opens also a terminal window that is located at the same directory location as the icon, if your data is also in that same location your are set, but you can use the ``Run..." command from the Startup menu to open a terminal window and then use chdir, copy, rename to operate the windows shell similarly to the UNIC shell.
+
+Without any {\bf parmfile}, {\it Migrate} will display a menu, in which you can change all the sensible options. For hints how to use the parmfile, look into section {\bf Menu and Options} or the {\tt parmfile}. Once you know how to customize the options with the {\bf parmfile} you will probably more often
+edit the parmfile than making the changes in the menu. Be careful, some complex options are most easily set through the menu.
+
+
+
+
