@@ -16,17 +16,16 @@ using   an expansion of the coalescent theory \citep{kingman1982-27,kingman1982-
 includes migration \citep{hudson1991-1,nath1993-841,notohara1990-59} and/or population splitting \citep[for example, ][]{nielsen:1998:mle}.
 \begin{align}
 \prob(\P | \Dd) &=  \frac{\prob( \P, \Dd)}{\prob(\Dd)} \\
-\intertext{which is equivalent to}
-\prob(\P | \Dd) &=  \frac{\prob(\P) \prob( \Dd | \P)}{\prob(\Dd)}\\
-\intertext{A Bayesian would tell us to use this}
+\intertext{which is equivalent to Bayes formula:}
+\prob(\P | \Dd) &=  \frac{\prob(\P) \prob( \Dd | \P)}{\prob(\Dd)}.\\
+\intertext{The famous Bayes formula is very general and discusses little what needs to be done in detail, but we want to estimate the probability of particular model parameter values for a given dataset. This posterior probability density depends on the likelihood of the data given the parameters and its priors scaled by the integral over all parameters. the denominator is a simple scaler to make the left hand side a proper probability. the likelihood is problematic because for our problem we need to relate the data (genetic material) with a model about populations. We can achieve that by using random genealogies and weight them how  well they fit the data. We simple could consider all genealogies of our sampled data and integrate over them and use}
 \label{BAYES}
-\prob(\P | \Dd) &=  \frac{\prob(\P) \int_G \prob(G | \P) \prob( \Dd | G)dG}{\prob(\Dd)},  \\ 
-\intertext{to calculate the posterior we will also need to calculate the likelihood}
+\prob(\P | \Dd) &=  \frac{\prob(\P) \int_G \prob(G | \P) \prob( \Dd | G)dG}{\prob(\Dd)}.  \\ 
+\intertext{The likelihood calculations is the most problematic because of the integration over genealogies}
 \label{LIKELIHOOD}  
 {\rm L}(\P) = \prob(\Dd | \P) &=   \int_G \prob(G | \P) \prob( \Dd | G)dG.   
 \end{align}
- 
- The integration over all genealogies is not a simple integral, but a sum over all possible labeled histories and integrals over all possible branch lengths $b_i$
+ The key issue is that there are huge number if different topologies, each with continuous branch lengths; it  is a sum over all possible labeled histories and integrals over all possible branch lengths $b_i$
 \begin{align}
 {\rm L}(\P) &= \sum_T \int_{b_1} ... \int_{b_k} \prob(T,\underline{b} | \Theta) \prob(\Dd | T,\underline{b}) db_1...db_k.
 \end{align}

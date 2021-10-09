@@ -1,6 +1,6 @@
-\documentclass[11pt,titlepage]{report}
+\documentclass[12pt, oneside, titlepage]{report}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-\def\VERSION{4.x}
+\def\VERSION{5.x}
 \def\versiondate{\today}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \input{head}
@@ -9,14 +9,14 @@
 \normalfont \sffamily
 \renewcommand{\familydefault}{\sfdefault}
 \thispagestyle{empty}
-\begin{picture}(0,0)(0,0)
+\begin{picture}(0,0)(-20,0)
 \put(-50,-500){\includegraphics[scale=8.0]{mim/migrate_logo}}
 \put(10, -490){\rotatebox{90}{{\riesig Migrate}~~~ {\gross Documentation}}}
 \put(340, -487){\rotatebox{90}{{\gross Version \VERSION}}}
 \end{picture}
 \begin{flushright}
 \vskip 17.5cm
-{\large \sl {Peter Beerli}\\
+{\sl {Peter Beerli}\\
 Department of Scientific Computing\\
 Florida State University\\ Tallahassee, FL 32306-4120}\\
 {\footnotesize email:beerli@fsu.edu}\\
@@ -33,15 +33,16 @@ the sections about
 \begin{itemize}
 \item {\bf Data file specifications}
 \item {\bf Quick guide for achieving ``good'' results with {\tt migrate}}.
+\item {You may want to consider to work through this tutorial:\\ \textbf{https://currentprotocols.onlinelibrary.wiley.com/doi/pdfdirect/10.1002/cpbi.87}}
 \end{itemize}
 \unitlength=1mm
 \begin{picture}(0,0)(0,0)
-\put(110,-50){\includegraphics[width=6cm]{mim/read}}
+\put(110,-60){\includegraphics[width=6cm]{mim/read}}
 \end{picture}
 
 \vskip 0.2in
 Good luck,\\
-Peter Beerli      Tallahassee, July 2020
+Peter Beerli      Tallahassee, Fall 2021
 \vskip 4cm
 %Improved parts in this manual (\today)
 %\begin{itemize}
@@ -65,6 +66,7 @@ Peter Beerli      Tallahassee, July 2020
 %\end{itemize}
 
 \newpage
+\markboth{}{}
 \tableofcontents
 \pagenumbering{arabic}
 \input{introduction}
