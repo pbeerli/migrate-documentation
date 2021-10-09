@@ -1,3 +1,4 @@
+% !TEX root = migratedoc.tex
 \chapter{History and persistent problems}
 \begin{small}
 \begin{verbatim}
@@ -6,6 +7,287 @@ H I S T O R Y    O F      M I G R A T E
 
 [people] in brackets helped with resources or reported problems.
 
+
+Version numbers: 4 major version [addition of forces, big rearrangements] 
+                 2 subversion           [new options, or large bug fixes]
+		 1 fix minor problems        [fixing errors, wording etc]  
+
+-------------------------------------------------------------------------
+                                     2019
+-------------------------------------------------------------------------
+June 1        Migrate 4.4.4, changes to reduce the number of warnings with
+              clang -weverything. 
+April 1       Migrate 4.4.3, updated the README and was able to compile
+              for windows, no change of the code base.
+March 21      Migrate 4.4.3, fixed a problem in the calculation of the
+              P(G|param) when events are impossible, a test triggered an
+	      abort of the run, now it silently sets the probability of
+	      such a case to zero and discards the trial.
+January 30    Migrate 4.4.2, revisited the SNP handling, now if a 'snp'
+              with only one allele is entered no postitive log likelihoods
+	      appear, this may lead to new issues when users use ambiguity
+	      codes because they are treated as uncertainty and not as an
+	      indication of a heterozygote, I suggest to code heterozygots
+	      as two haplotypes. I added also an average locus-length to
+	      calculate the number of invariants sites better; fixed the
+	      problem that mutationmodels that allow for different base
+	      frequencies always calculated the base frequencies from the
+	      data.
+-------------------------------------------------------------------------
+                                     2018
+-------------------------------------------------------------------------
+November 29   Migrate 4.4.1, fixed an error in the Makefile.
+November 26   Migrate 4.4.0 same as 4.2.14 (but to disambiguite version
+              number problems.
+November 17   Migrate 4.2.14 (revised), the program made several changes
+              during 2018 that werer then reverted to 4.2.14 version
+	      because the intermediates introduced potential errors, this
+	      version will be renamed to 4.4 so that we can have a clean
+	      slate and do not have issues with the distribution because
+	      currently 4.2.14 does exist in two slight modified versions
+	      maybe eventually I learn not to make a mess with git. [this
+	      version was used to produce the figures in the Syst Bio paper.
+-------------------------------------------------------------------------
+                                     2017
+-------------------------------------------------------------------------
+April 16      Migrate 4.2.14: System to make the examples in the draft
+              paper; revert to normalorig set of function for the speciat
+	      normal distribution.
+March 25      Migrate 4.2.13: Choose between three different divergence
+              distribution: Exponential, Normal, and Weibull distribution
+	      the Exponential estimates the mean divergence time, the
+	      the Normal the mean and the stadard deviation, and the
+	      Weibull, the mean and the spread parameter k.
+March 6       Migrate 4.2.12; revision of the prior framework, now it is
+              easy to specify different priors for every variable, this
+	      also improved the results for immigration with divergence;
+	      more simulation runs are now needed. The divergence system
+	      with the Weibull distribution and Expoential looks promising,
+	      but the Normal distribution is still in bad shape.
+-------------------------------------------------------------------------
+                                     2016
+-------------------------------------------------------------------------
+November 26   Migrate 4.2.11 trying to harmonize my code between version
+              4.2.9 on the cluster that seems to generate better results
+	      than my 4.2.10 code, there are still differences with this
+	      check-in (git tag 4.2.11), code differences are now minimal
+	      but differences in results are still too big!
+November 6    Migrate 4.2.10 more testing, in particular the numerical 
+              properties of erf(x)/erf(y) that lead to -inf, inf, nan issues
+              when calculating the p(G|param). 
+August 24     Migrate 4.2.9 first attempt to release cleaning, fixing 
+              menus, and checking divergence dates.
+June 24       Migrate 4.2.8 small changes to accomodate more stringent 
+              compiler warnings.
+April 1       Migrate 4.2.7 addition of groups for migration patterns,
+              for example 4 populations 1-2-3-4 can be described so that
+              one migration rate for flow from left to right and another
+              for flow from right to left using this option set
+              custom-migration={xa00 bxa0 0bxa 00bx}; testing and improving
+              calculations of lineages in genealogy (detected ties in the
+              the timelist).
+January 20    Migrate 4.2.6 improving numerical stability with many loci 
+              there are still issues (if you receive very different averages
+              and modes, rerun the program with more steps, if the problem
+              persists let me know (with infile and parmfile)  
+-------------------------------------------------------------------------
+                                     2015
+-------------------------------------------------------------------------
+October       Migrate 4.2.4-5 improving stability
+August 10     Migrate 4.2.3 addition of hyper-prior for prior gamma distribution
+              checking and revising code for divergence   
+June 18       Migrate 4.2.2a and Migrate 3.6.11 missing -1 leading to a crash 
+              in printing population names found (thanks cipres-team) and fixed.
+June 13       Migrate 4.2.1a fixing a problem with assignment probabilities
+              where individuals to assign are not present for all loci. 
+May 24        Migrate 3.6.10 memory overrun resolved when data file numpop# 
+              and relabel numpop# do not match.
+May 2         Migrate 3.6.9 the threaded versions crashed with msat data 
+              and fragment length translation because of an early access
+              to the threadsafe random number generator which did not have
+              the locks allocated: fixed.
+March 30      Release of Migrate 4.2.0a, addition of a recover option, that
+              allows 'checkpointing' once the first run using bayes-allfile
+              failed, using the recover option [see in saved parmfile] one
+              can continue and potentially finish the run. 
+March 26      Migrate 3.6.8 Fixed stupid typo in last update that lead to
+              not calculating the allele frequency tables. 
+March 23      Release of Migrate 4.1.4a, fixed an error in the divergence
+              calculation; changed the snp allele reporting so that it can
+              work with large number of linked snps per locus. Fixed the snp
+              issue in 3.6.7, too.
+February 22   Release of Migrate 4.1.3a, added an option to do terse PDF 
+              output for very large number of loci, changed the example
+              directory (see README in there). During January I also updated 
+              the legacy/old version to 3.6.6. 
+-------------------------------------------------------------------------
+                                     2014
+-------------------------------------------------------------------------
+December 2    Release of Migrate 4.x, current version 4.1.0a, all updates
+              are now done in this version, although I will do bugfixes in 3.6.5
+              for a while to accomodate users.
+October 18    Migrate 3.6.5 fixes a problem with the mean over many loci.
+              When the program was not collecting enough samples then 
+              occasionally the error could lead to incorrect histograms.
+              If you run 3.6.4 upgrade to 3.6.5.
+-------------------------------------------------------------------------
+                                     2013
+-------------------------------------------------------------------------
+December 15   Migrate 3.6.4/4.0 reevaluated the combination of loci in the Bayesian inference
+              and found a bug that affects marginal likelihoods that are evident with small
+              differences between models, this seems to be an issue with comparison based on 
+              sequence data (e.g. the Bayes factor tutorial). This problem was introduced with
+              the correction of the marginal likelihood in 3.6.
+Setpember 29  Migrate 3.6.3 Added the hapmap datatype to the datatype menu.
+September 19  Migrate 3.6.2 Fix a problem with a potential infinite loop in the
+              parameter proposal step that stopped some snp runs, fixed a reporting
+              glitch with random-subset.
+August 24     Migrate 3.6.1 Random-subset failed on windows, now fixed 
+August 20     Migrate 3.6 Problem with combining loci found and fixed, the 
+              correction for the overuse of the prior failed when the posterior
+              is concentrated and sampling is sparse, leading to an overcorrection
+              that in turn led to spurious peaks that became important with more
+              and more loci.
+June 10       Migrate 4.0a Assignment on a per allele basis works, Haplotyping
+              also works.
+June 6        Migrate 3.5.4 problem with UTF file type checking is causing
+              problems on some machines, UTF checking is disabled for now,
+              make sure that your data file does not contain any other
+              characters than ASCII.
+April 28      Migrate 3.5.3 incorrect printing of random subset list in pdf file
+              is fixed. 
+April 15      Migrate 3.5.2 a bug in the parallel code the lead to a 1 Byte
+              memory overrun is fixed.
+March 11      Migrate 3.5.1 'fixed' the skyline plots, now the plots
+              should look OK again. Some minor formatting issues in the options.
+March 3       Migrate 3.5 added a Gamma distributed prior, added the 
+              prior distribution to the histogram in the PDF, to show how
+              different the posterior is from time prior. Changes in the 
+              calculation of Nm (in contrast to M [m/mu]) that should give
+              fewer problems than the earlier implementation. Running with
+              'no data' now works for all cases.
+January 26    Migrate 3.4.6 Fixed a reporting bug that did increase the
+              printed accepted and tried samples when in a parallel run
+              the number of nodes was smaller than replicates*loci. 
+January 4     Migrate 3.4.5 compilation on windows using cygwin works now.
+January 2     Migrate 3.4.4 fixes a problem for maximum likelihood
+              introduced in 3.3.1, the autotune feature introduced a memory
+              overrun with likelihood, but not with Bayesian inference.
+              Changed printout presenting relative mutation rate from data.
+-------------------------------------------------------------------------
+                                     2012
+-------------------------------------------------------------------------
+December 17   Migrate 3.4.3 fixes a crash when the burn-in is zero.
+December 11   Migrate 3.4.2 Electrophoretic marker data was not read correctly
+              due to a programming error (the program crashed), now fixed 
+              [thanks to Chester Sands for reporting]
+December 6    Migrate 3.4.1 A report suggested that on some cluster computers
+              the generation or random number seeds leads to a stall because
+              the queried device does not deliver enough randomness and
+              therefore blocks, since we do not need cryptographically usable
+              random numbers the reader was changed to the non-blocking
+              random device, this does not affect windows machine because
+              those use the system clock (inferior).
+November 24   Migrate 3.4 added a few commandline options (-version, -help)
+              the -version command is used to test the fastmigrate-n 
+              installation for macintosh distribution 
+November 10   Migrate 3.3.5 when using Nm instead of M and also using a
+              restricted custom migration matrix sometimes warnings were
+              triggered, the problem was found and fixed (values for 
+              undefined parameters were recorded bu not used).
+October 25    Migrate 3.3.4 Under some condition a problem with the combination
+              of loci lead to empty posterior distribution diagrams and 
+              huge negative numbers for the marginal likelihood. My underflow
+              protection failed on, well, for some runs. This fix still needs
+              more review but looks good so far. I skip the version 3.3.3 
+              because I had an internal one that was released on some binary 
+              distributions. Some reporting during the run has changed.  
+August 26     Migrate 3.3.2 Fixed a memory problem that made it problematic to 
+              run datasets with many populations (and parameters).[Romain Mayor]
+August 22     Migrate 3.3.1 Change of data distribution system for parallel
+              version, this allows to faster start with many (>500) loci.
+	      Inclusion of autotuning for Metropolis-Hastings acceptance ratio
+              this has promoted a change in the defaults for the proposal:
+              now it is back to Metropolis-Hastings instead of Slice sampling.
+Jul 22        Migrate 3.3.0 Bayes factor subsystem revised and improved.
+              Version bump because of changes in menu ordering. 
+June 13       Migrate 3.2.21 does fix a bug that lead to problems when you 
+              analyze reduced custom migration matrices using parallel 
+              version and also did not save the bayesallfile [this should 
+              fix the infamous empty posterior histogram problem]]
+May 20        Migrate 3.2.20 revision of the inheritance scalar system.
+              the earlier versions did not work well.
+May 10        Migrate 3.2.19 allowes now #M and #@M in the data file to
+              estimate microsatellite repeat lengths from fragment lengts. 
+-------------------------------------------------------------------------
+                                     2011
+-------------------------------------------------------------------------
+October 8      Migrate 3.2.17 fixed a problem when all parameters are set
+               to average (m) and no intermediate file for Bayesian inference
+               is used. Fixed a problem for windows that caused a crash when
+               intermediate files for Bayes inference (bayesallfile) was
+               used. 
+July 1         Migrate 3.2.16 removed some printing in the MPI version and 
+               fix of a condition that lead to print ? instead of numbers
+               for the allele frequency tables (msats and iam datasets)
+June 10        Migrate 3.2.15 found a mistake that was incorporated on
+               May 30 that resulted in incorrect sampling of genealogies
+               when the option fast-likelihood=NO and DNA data was used.
+               The output then showed near zero acceptances for genealogies
+               and extremely low ESS for the genealogies. This is fixed.
+June 8         Migrate 3.2.14 reissue of the last update because I pushed
+               older version onto the website, to avoid confusion the correct
+               version is labeled 3.2.14.
+May 30         Migrate 3.2.13 Fixed two memory problem that lead to 
+               occasional crashes in the likelihood inference module.
+               Addition of testsuite that allows testing and comparing
+               speed of different compilations and settings.
+May 26         Migrate 3.2.12 Fixed warnings for Ubuntu Linux.
+May 19         Migrate 3.2.11 I have started to use a testsuite to check 
+               more regularly on small glitches: the testsuite directory 
+               contains datafiles, a python script to run automated tests,
+               the parameter warning system had a glitch with ML and 
+               parallel runs, now fixed.  
+May 14         Migrate 3.2.10 fixing and underflow problem with snp data 
+               when the number of individuals are large, this particularly
+               affected model choice runs because the hottest chain often
+               failed because snps did not use scaling of the conditional
+               likelihood values on the genealogy; the fix introduces such 
+               a scaler with the same option that is used with the sequence 
+               data.
+May 1          Migrate 3.2.9 Streamlining code
+March 21       Migrate 3.2.8 Cleaning of little nuisances detected by the 
+               static analyzer in xcode, investigation of strange posterior
+               with parallel runs and custom migration matrices and replicates.
+               Revised the "Warning" section, to "Suggestions". 
+January 12     Migrate 3.2.7 Parallel Migrate had difficulties with Maximum
+               likelihood printing of profiles tables (it crashed),
+               temporary fix (the exchange of data among computer nodes 
+               needs to be more streamlined (time frame depends on funding)).
+-------------------------------------------------------------------------
+                                     2010
+-------------------------------------------------------------------------
+December 5     Migrate 3.2.6 Parallel Migrate broke for Bayesian inference
+               when the reporting file bayesallfile was set to NO: fixed.
+November 27    Migrate 3.2.5 a memory overflow in reporting large migration
+               matrices in the ML-mode is fixed [Daniel T. R.]
+November 21    Migrate 3.2.4 cleaning up of printing and using inheritance 
+               scalars. First trial distribution of a general fastmigrate
+               python script.
+November 5     Migrate 3.2.3 the PDF library was not able recognize the shipped
+               zlib.h, hopefully fixed now.
+October 31     Migrate 3.2.2 clean up problems with zlib in the configure file.
+               No change in functions in the program.
+October 25     Migrate 3.2.1 addition of a compression scheme for the recording
+               of all parameter values in the Bayesian inference (simple add
+               a .gz to the filename of the bayesallfile filename and it will be
+               compressed, the source distribution now distributes also the zlib
+               library and configure can be forced to use that, default is the
+               system, but that may be slow. Little tests with very large datasets
+               have been done for the compression scheme. Printing of trees 
+               now also works for microsatellite trees. Currently the printing of 
+               ALL trees using the parallele migrate does not work (use the single
+               cpu version).
 -------------------------------------------------------------------------
                                      2010
 -------------------------------------------------------------------------

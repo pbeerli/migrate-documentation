@@ -1,6 +1,6 @@
 % !TEX root = migratedoc.tex
-\chapter{Theoretical consideration}
-\myabstract{A short overview of the math that is used by the program \migrate. If you want to treat \migrate as a black box, then skip this section.}
+\chapter{A quick overview of the calculations and specification of the parameters}
+\myabstract{A short overview of the math that is used by the program \migrate. If you want to treat \migrate as a black box, then skip to the section on \textbf{parameter definitions}.}
 The program \migrate infers population genetic parameters from genetic data. Essentially we want to find the  Bayesian posterior probability density of parameters $\P$ of a particular model given the Data $\Dd$:
 \begin{align}
    \prob(\P | \Dd). \notag
@@ -23,21 +23,24 @@ includes migration \citep{hudson1991-1,nath1993-841,notohara1990-59} and/or popu
 \prob(\P | \Dd) &=  \frac{\prob(\P) \int_G \prob(G | \P) \prob( \Dd | G)dG}{\prob(\Dd)}.  \\ 
 \intertext{The likelihood calculations is the most problematic because of the integration over genealogies}
 \label{LIKELIHOOD}  
-{\rm L}(\P) = \prob(\Dd | \P) &=   \int_G \prob(G | \P) \prob( \Dd | G)dG.   
+{\mathrm L}(\P) = \prob(\Dd | \P) &=   \int_G \prob(G | \P) \prob( \Dd | G)dG.   
 \end{align}
  The key issue is that there are huge number if different topologies, each with continuous branch lengths; it  is a sum over all possible labeled histories and integrals over all possible branch lengths $b_i$
 \begin{align}
-{\rm L}(\P) &= \sum_T \int_{b_1} ... \int_{b_k} \prob(T,\underline{b} | \Theta) \prob(\Dd | T,\underline{b}) db_1...db_k.
+{\mathrm L}(\P) &= \sum_T \int_{b_1} ... \int_{b_k} \prob(T,\underline{b} | \Theta) \prob(\Dd | T,\underline{b}) db_1...db_k.
 \end{align}
 Older versions of \migrate than version 4.0 could use both approaches to estimate the parameters. It became a major burden updating the program to maintain both likelihood and Bayesian inference, so that I decided to strip out the likelihood material and focus on the Bayesian approach, which is often easier to code and maintain. One of the major headaches with the likelihood approach was the maximization of the likelihood function that became more and more complicated with more parameters, this maximization is not needed in the Bayesian approach, although we still need to calculate likelihoods.
 
+\subsection{\textcolor{red}{Parameter specification and definition}} 
+\migrate needs a population model and this model is framed in parameters that describe population sizes and geneflow between populations.
 Specifically, \migrate estimates migration rates, population splitting times, and effective population sizes of 1 to many populations
 using genetic data (Fig 1).  The parameters to estimate are
 \begin{align}
 \label{PARAMETERS}
 \P &= \left(\begin{matrix}  \underline{\Theta} & \underline{\M} & \underline{\Delta} & \underline{S_\Delta}\end{matrix}\right),
 \end{align}
-where $ \underline{\Theta}$ are the mutation-scaled population sizes of each subpopulation, using $\Theta=xN_e\mu$, where $x$ is the inheritance scalar, which is for diploids 4 and for haploids 2; $N_e$ is the effective population size ; and $\mu$ is the mutation rate per site and per generation with DNA/RNA data, for microsatellite data $\mu$ is for the whole locus per generation. $ \underline{\M}$ are the mutation-scaled immigration rates which are $m_{i\rightarrow j} / \mu$, $m_{i\rightarrow j}$ is the rate of immigration into population $j$ from $i$ per generation. The direction is interpreted in a standard population genetics way: an individual is in population $i$ at time $z$ and then either its gametes or itself arrives in population $j$ at time $z+1$. The theory does not really consider the emigrants (similarly we do not worry about the many gametes that we do not choose between generations, only the ones that make into the next generation or, here, into the other population or stay are relevant. The divergence parameters $\Delta_{i\rightarrow j}$ and $S_{\Delta, i\rightarrow j}$ are the parameters of a distribution (commonly a normal) that express the divergence time and its standard deviation. The divergence time is the time where a descendent $j$ splits off of the ancestor $i$, the ancestor $i$ can but need to be a sampled population.  
+where $ \underline{\Theta}$ are the mutation-scaled population sizes of each subpopulation, using $\Theta=xN_e\mu$, where $x$ is the inheritance scalar, which is for diploids 4 and for haploids 2; $N_e$ is the effective population size ; and $\mu$ is the mutation rate per site and per generation with DNA/RNA data, for microsatellite data $\mu$ is for the whole locus per generation. $ \underline{\M}$ are the mutation-scaled immigration rates which are $m_{i\rightarrow j} / \mu$, $m_{i\rightarrow j}$ is the rate of immigration into population $j$ from $i$ per generation. The direction is interpreted in a standard population genetics way: an individual is in population $i$ at time $z$ and then either its gametes or itself arrives in population $j$ at time $z+1$. The theory does not really consider the emigrants (similarly we do not worry about the many gametes that we do not choose between generations, only the ones that make into the next generation or, here, into the other population or stay are relevant. The divergence parameters $\Delta_{i\rightarrow j}$ and $S_{\Delta, i\rightarrow j}$ are the parameters of a distribution (commonly a normal) that express the divergence time and its standard deviation. The divergence time is the time where a descendent $j$ splits off of the ancestor $i$, the ancestor $i$ can but need not to be a sampled population. The divergence time is similarly scaled as the other parameters and \migrate estimates a mutation-scaled divergence time. The time is measured in generation times the mutation rate per site and generation. For comparison to other software you may want to divide the divergence time by the sum of all scaled population sizes to scale the time in coalescent units. This works well when compared to the simulation software \ms \citep{hudson2002}.
+  
 \section*{Mutation-scaled population sizes}
 \vskip -1cm 
 \begin{align}
@@ -103,7 +106,7 @@ which is $m_i/\mu$, the migration estimate is often also expressed as $xNm$ whic
 
 \section*{Mutation-scaled population splitting  times $\Delta$ and standard deviations $S_\Delta$}
 The population splitting times are model differently to other programs that all use the model of IM \citep{Hey:2010a}.
-My new model was worked out by \cite{Palczewski2015}.  We treat population splitting events as individual events on a lineage. Looking backward in time, a lineage $\ell$  currently in population $\kappa$ is at risk of being  in a different population either by migration with rate $\M$ or into another population by a splitting event. The Splitting event is proposed during the MCMC run using a hazard function of the splitting time distribution, for simplicity we use a truncated Normal distribution with mean $\Delta$ and standard deviation $S_\Delta$. Drawing these splitting events using a hazard function is equivalent to the coalescent or migration event which are also hazard functions. During the MCMC runs many different splitting events will be proposed from the Normal distribution with $\Delta_j$ and $S_{\Delta_j}$ for $j$ population splits. The current version needs guidance which populations are merging (looking backwards in time), for an example see the Bayes Factor section.  In the parmfile and the menu the setting of the splitting parameters is combined with setting the migration model, for an example see definition of the custom migration matrix.  
+Our new model was described by \cite{beerli2019b}.  We treat population splitting events as individual events on a lineage. Looking backward in time, a lineage $\ell$  currently in population $\kappa$ is at risk of being  in a different population either by migration with rate $\M$ or into another population by a splitting event. The Splitting event is proposed during the MCMC run using a hazard function of the splitting time distribution, for simplicity we use a truncated Normal distribution with mean $\Delta$ and standard deviation $S_\Delta$. Drawing these splitting events using a hazard function is equivalent to the coalescent or migration event which are also hazard functions. During the MCMC runs many different splitting events will be proposed from the Normal distribution with $\Delta_j$ and $S_{\Delta_j}$ for $j$ population splits. The current version needs guidance which populations are merging (looking backwards in time), for an example see the Bayes Factor section.  In the parmfile and the menu the setting of the splitting parameters is combined with setting the migration model, for an example see definition of the custom migration matrix.  
 
 
 %\section{Maximum likelihood estimation of migration rates}
@@ -157,8 +160,8 @@ The parameters have a uniform distribution between a minimal and a maximal value
 \label{UNIPRIOR}
     \prob(\P_i) =  \frac{1}{\P_{max} - \P_{min}} \\
     \intertext{it is implemented using a windowing method with window size $\Delta$, that is preferrably around 1/10 of the whole range.}
-    \P_{\rm new} =  \P_{\rm old} + (2 \Delta r - 1) \begin{cases} \P_{\rm new} < \P_{\rm min}  &  \P_{\rm min} + |\P_{\rm min} - \P_{\rm new}| \\
-     \P_{\rm new} > \P_{\rm max}  &  \P_{\rm max} - |\P_{\rm max} - \P_{\rm new}| \end{cases}
+    \P_{\mathrm new} =  \P_{\mathrm old} + (2 \Delta r - 1) \begin{cases} \P_{\mathrm new} < \P_{\mathrm min}  &  \P_{\mathrm min} + |\P_{\mathrm min} - \P_{\mathrm new}| \\
+     \P_{\mathrm new} > \P_{\mathrm max}  &  \P_{\mathrm max} - |\P_{\mathrm max} - \P_{\mathrm new}| \end{cases}
 \end{gather}
 
 \subsubsection{Gamma distribution prior}
@@ -171,8 +174,8 @@ The truncated gamma distribution has four parameters $\alpha$, $\beta$, minimum 
 \beta = \text{minimization of the mean of the truncated gamma and the parameter $\mu$}  \\
 \prob(\P_i) =  \text{probability of the truncated gamma} 
 %    \intertext{it is implemented using a windowing method with window size $\Delta$, that is preferrably around 1/10 of the whole range.}
-%    \P_{\rm new} =  \P_{\rm old} + (2 \Delta r - 1) \begin{cases} \P_{\rm new} < \P_{\rm min}  &  \P_{\rm min} + |\P_{\rm min} - \P_{\rm new}| \\
-%     \P_{\rm new} > \P_{\rm max}  &  \P_{\rm max} - |\P_{\rm max} - \P_{\rm new}| \end{cases}
+%    \P_{\mathrm new} =  \P_{\mathrm old} + (2 \Delta r - 1) \begin{cases} \P_{\mathrm new} < \P_{\mathrm min}  &  \P_{\mathrm min} + |\P_{\mathrm min} - \P_{\mathrm new}| \\
+%     \P_{\mathrm new} > \P_{\mathrm max}  &  \P_{\mathrm max} - |\P_{\mathrm max} - \P_{\mathrm new}| \end{cases}
 \end{gather}
 
 
@@ -182,23 +185,23 @@ The parameters have a exponential distribution, \migrate calculates three versio
 \textsl{Simple exponential prior distribution}
 \begin{align}
 \label{EXPPRIOR}
-    \prob(\P_i) &=  \int_0^\infty exp( -P_{i} / P_{\rm mean}) / P_{\rm mean} d\P_i = exp(- P_{i}/P_{\rm mean}) \\
-    \P_{\rm new} &=  - \P_{\rm mean}\ ln(r)
+    \prob(\P_i) &=  \int_0^\infty exp( -P_{i} / P_{\mathrm mean}) / P_{\mathrm mean} d\P_i = exp(- P_{i}/P_{\mathrm mean}) \\
+    \P_{\mathrm new} &=  - \P_{\mathrm mean}\ ln(r)
 \end{align}
 \textsl{Exponential prior distribution with fixed window}
 \begin{align}
 \label{WEXPPRIOR}
-    \prob(\P_i, \P_{\rm min}, \P_{\rm max}) &=  \frac{\int_{\P_{\rm min}}^{\P_{\rm max}} exp( -P_{i} / P_{\rm mean}) / P_{\rm mean} d\P_i}{exp(-P_{\rm min}/P_{\rm mean}) - exp(-P_{\rm max}/P_{\rm mean})}\\ 
-     &= \frac{exp(-P_{\rm min}/P_{\rm mean}) - exp(-P_{\rm x}/P_{\rm mean})}{exp(-P_{\rm min}/P_{\rm mean}) - exp(-P_{\rm max}/P_{\rm mean})} \\
-    \P_{\rm new} &=  - \P_{\rm mean}\ ln(\frac{r}{exp(\P_{\rm max}/\P_{\rm mean})}-\frac{r-1}{exp(\P_{\rm min}/\P_{\rm mean})}); 
+    \prob(\P_i, \P_{\mathrm min}, \P_{\mathrm max}) &=  \frac{\int_{\P_{\mathrm min}}^{\P_{\mathrm max}} exp( -P_{i} / P_{\mathrm mean}) / P_{\mathrm mean} d\P_i}{exp(-P_{\mathrm min}/P_{\mathrm mean}) - exp(-P_{\mathrm max}/P_{\mathrm mean})}\\ 
+     &= \frac{exp(-P_{\mathrm min}/P_{\mathrm mean}) - exp(-P_{\mathrm x}/P_{\mathrm mean})}{exp(-P_{\mathrm min}/P_{\mathrm mean}) - exp(-P_{\mathrm max}/P_{\mathrm mean})} \\
+    \P_{\mathrm new} &=  - \P_{\mathrm mean}\ ln(\frac{r}{exp(\P_{\mathrm max}/\P_{\mathrm mean})}-\frac{r-1}{exp(\P_{\mathrm min}/\P_{\mathrm mean})}); 
 \end{align}
 \textsl{Exponential prior distribution with variable window}
 \begin{align}
 \label{AEXPPRIOR}
-    \prob(\P_i | \P'_i,  \P_{\rm min}, \P_{\rm max}) &=  \frac{2 \int_{\P'_i - \Delta}^{\P'_i + \Delta} exp( -P_{i} / P'_i) / P'_i d\P_i}{exp(1) Csch(\Delta / P'_i)}\\ 
+    \prob(\P_i | \P'_i,  \P_{\mathrm min}, \P_{\mathrm max}) &=  \frac{2 \int_{\P'_i - \Delta}^{\P'_i + \Delta} exp( -P_{i} / P'_i) / P'_i d\P_i}{exp(1) Csch(\Delta / P'_i)}\\ 
      &= \frac{(exp(\Delta + P_i)/P'_i - exp(1)) Csch(\Delta/\P'_i)}{2 exp(\P_i/\P'_i)} 
      \end{align}
      \begin{align}
-    \P_{\rm new} &=  \P'_i - \P'_i ln(exp(\Delta/\P'_i) - 2 r Sinh(\Delta / \P'_i))\begin{cases} \P_{\rm new} < \P_{\rm min}  &  \P_{\rm min} + |\P_{\rm min} - \P_{\rm new}| \\
-     \P_{\rm new} > \P_{\rm max}  &  \P_{\rm max} - |\P_{\rm max} - \P_{\rm new}| \end{cases}
+    \P_{\mathrm new} &=  \P'_i - \P'_i ln(exp(\Delta/\P'_i) - 2 r Sinh(\Delta / \P'_i))\begin{cases} \P_{\mathrm new} < \P_{\mathrm min}  &  \P_{\mathrm min} + |\P_{\mathrm min} - \P_{\mathrm new}| \\
+     \P_{\mathrm new} > \P_{\mathrm max}  &  \P_{\mathrm max} - |\P_{\mathrm max} - \P_{\mathrm new}| \end{cases}
 \end{align}

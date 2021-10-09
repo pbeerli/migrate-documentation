@@ -1,7 +1,8 @@
+% !TEX root = migratedoc.tex
 \chapter {Menu and Options}
 \myabstract{Most options can be changed through the textual menu.}
 You can change the options in the menu (Fig. \ref{TOPM}) using letters or in submenus numbers. 
-In menu entry {\tt Data type} you need to specify what kind of data you have and according
+In menu entry \texttt{ Data type} you need to specify what kind of data you have and according
 to that type some other menu entries appear, for example:  transition/transversion ratio for sequences.\\
 
 \begin{figure}[bht]
@@ -10,7 +11,7 @@ to that type some other menu entries appear, for example:  transition/transversi
 
 \begin{boxedminipage}[t]{5.2in}
 \begin{small}
-%\begin{tt}
+%\ttfamily{
 \begin{verbatim}
  ===========================================================
   POPULATION SIZE, MIGRATION, DIVERGENCE, ASSIGNMENT, HISTORY
@@ -36,34 +37,34 @@ to that type some other menu entries appear, for example:  transition/transversi
   Start the program with typing Yes or Y
 ===> 
 \end{verbatim}
-%\end{tt}
+%}
 \end{small}
 \end{boxedminipage}
 \end{center}
-\caption{{\sf Top menu of {\it Migrate}}}
+\caption{\textsf{ Top menu of \textit{ Migrate}}}
 \label{TOPM}
 \end{figure}
-Menu options can also be changed in the {\tt parmfile}, but before you do that, become more experienced with the
+Menu options can also be changed in the \texttt{ parmfile}, but before you do that, become more experienced with the
 menu and its interaction with the parmfile (make some changes in the menu, save the parmfile, and then check
 how these changes were translated. Never ever use an old parmfile from earlier versions to edit by hand, you will miss
 new options and also potential changes in the parmfile. If you want to use options of an older parmfile, load it into \migrate
 and save it using the menu option, and then manipulate the parmfile with a text editor. \textbf{\migrate will overwrite currently all
 user comments added to the parmfile.}
-All possible options are shown in {\tt parmfile} syntax, but the same items can 
-be changed in the menu as well. All entries in the {\tt parmfile} 
+All possible options are shown in \texttt{ parmfile} syntax, but the same items can 
+be changed in the menu as well. All entries in the \texttt{ parmfile} 
 are not case sensitive and all options
 can be given with the first letter, e.g. datatype=Allele is equal to 
 datatype=A. 
 \newpage
  \section{Data type}
-If you chose {\tt D} in the main menu then will get the data menu (Fig. \ref{DATAMENU}). More options will appear with some choices, for example when you have dated samples you can add a datefile and will also need to specify a mutation rate estimate  (Fig. \ref{DATAMENU2}). These additional options are meaningless without dated samples and should only be used with that type of ancient 
+If you chose \texttt{ D} in the main menu then will get the data menu (Fig. \ref{DATAMENU}). More options will appear with some choices, for example when you have dated samples you can add a datefile and will also need to specify a mutation rate estimate  (Fig. \ref{DATAMENU2}). These additional options are meaningless without dated samples and should only be used with that type of ancient 
 DNA or virus datasets.
 \begin{figure}[bht]
 
 \begin{center}
 \begin{boxedminipage}[t]{14.5cm}
 \begin{small}
-\begin{tt}
+\ttfamily{
 \begin{verbatim}
   DATATYPE AND DATA SPECIFIC OPTIONS
 
@@ -84,11 +85,11 @@ DNA or virus datasets.
   (Type Y or the number of the entry to change)
 ===> 
 \end{verbatim}
-\end{tt}
+}
 \end{small}
 \end{boxedminipage}
 \end{center}
-\caption{{\sf Data menu}}
+\caption{\textsf{ Data menu}}
 \label{DATAMENU}
 \end{figure}
 
@@ -97,7 +98,7 @@ DNA or virus datasets.
 \begin{center}
 \begin{boxedminipage}[t]{14.5cm}
 \begin{small}
-\begin{tt}
+\ttfamily{
 \begin{verbatim}
   DATATYPE AND DATA SPECIFIC OPTIONS
 
@@ -121,14 +122,14 @@ DNA or virus datasets.
   (Type Y or the number of the entry to change)
 ===> 
 \end{verbatim}
-\end{tt}
+}
 \end{small}
 \end{boxedminipage}
 \end{center}
-\caption{{\sf Data menu with more options that appear with dated samples, and site rate categories}}
+\caption{\textsf{ Data menu with more options that appear with dated samples, and site rate categories}}
 \label{DATAMENU2}
 \end{figure}
-To change the data type select {\tt 1}, the other numbers show
+To change the data type select \texttt{ 1}, the other numbers show
 options that are relevant for the actual data type. There are several
 datatypes such as the following:\\
 {\bt{datatype=$<$Allele $|$ Microsatellites $|$ Brownian $|$ Sequences $|$ Nucleotide-polymorphisms $|$ 
@@ -146,12 +147,12 @@ codominant markers of which we do not know the mutation model.
 used for the change along the branches in genealogy.
 \item{\bt{Brownian}:} a Brownian motion approximation to 
 the stepwise mutation
-model for microsatellites us used (this is {\bf much} faster 
+model for microsatellites us used (this is \textbf{ much} faster 
 than exact model,
 but is not a good approximation if population sizes $\Theta_i$ 
 are small (say below 10).
 \item{\bt{Sequences}:} Data are DNA or RNA sequences and the mutation model used is F84, first used by Felsenstein 1984 (actually the same
-as in {\tt dnaml} \citep[Phylip version 3.5; ][]{felsenstein:1993:ppia}, a description of this model 
+as in \texttt{ dnaml} \citep[Phylip version 3.5; ][]{felsenstein:1993:ppia}, a description of this model 
 can be found in \cite{swofford:1996:pi}. 
 \item{\bt{Nucleotide-polymorphism}:}[SNP] the data likelihood is corrected for 
 sampling only variable sites. We assume that the a sequence data set
@@ -162,14 +163,14 @@ sampling only variable sites. We assume that the a sequence data set
 was used to find the SNP. 
 %\item{\bt{Panel-SNP}:} the data likelihood is corrected for 
 %using a panel of SNP sites, that were polymorphic. The panel has to be population 1. 
-\item{\bt{Genealogies}:} Reads the {\tt bayesallfile}   (see INPUT/OUTPUT section) of a previous runs,
+\item{\bt{Genealogies}:} Reads the \texttt{ bayesallfile}   (see INPUT/OUTPUT section) of a previous runs,
 currently this option simply recreates the histogram, this allows the readjust some of the printouts but its usability to
 create new plots is limited.
 \end{description} 
 
 \subsubsection{Sequence data}
 If you specified {\bt{datatype=Sequence}} the following options have some meaning and will show up in the menu (see also details for these options in the main.html and dnaml.html of the PHYLIP distribution\\
-{\tt http://evolution.gs.washington.edu/phylip.html})
+\texttt{ http://evolution.gs.washington.edu/phylip.html})
 \begin{description}
 \item{\bt{ttratio=$<$ r1 r2 .....$>$}}\\ you need to specify a
 transition/transversion ratio, you can give it for each locus in the
@@ -190,7 +191,7 @@ about 0.001 (= 1 error in 1000 bases). The values are considered to be error rat
 \bt{sequence-error=$\{$0.002,0.001,0.0004,0.005$\}$}\\
 \bt{sequence-error=Estimate:1}}
 \item{\bt{categories=$<$Yes $|$ No$>$}}\\
- If you specify {\bt{Yes}} you need a file named "{\tt catfile} in the same  directory
+ If you specify {\bt{Yes}} you need a file named "\texttt{ catfile} in the same  directory
  with the following Syntax:
  number\_of\_categories cat1 cat2 cat3 .. categorylabel\_for\_each\_site
  for each locus, a \#  in the first column can be used to start a comment-line. This option is very rarely used. 
@@ -204,10 +205,10 @@ about 0.001 (= 1 error in 1000 bases). The values are considered to be error rat
 \end{verbatim}
 \end{small}
 \item{\bt{rates=$<$ n : r1 r2 r3 ..rn$>$}}\\
-by specifying rates  a hidden Markov model is used for the sequences \cite{felsenstein:1996:hmm}, also see the {\sc Phylip} documentation.
-In the {\tt Menu} you can specify rates that follow
+by specifying rates  a hidden Markov model is used for the sequences \cite{felsenstein:1996:hmm}, also see the \textsc{ Phylip} documentation.
+In the \texttt{ Menu} you can specify rates that follow
  a Gamma distribution,
-with the shape parameter {\tt alpha} of that Gamma distribution,
+with the shape parameter \texttt{ alpha} of that Gamma distribution,
 the program then calculates the rates and the rate probabilities ({\bt prob-rates}). 
 \item{\bt{prob-rates=$<$ n : p1 p2 p3 ... pn$>$}}\\
 if you specify your own {\bt{rates}} you need also to specify 
@@ -218,7 +219,7 @@ if you assume hat the sites are correlated along the sequence, specify the block
 give a value=2. [this option may not work in  version 4.x]
 
 \item{\bt{weights=$<$Yes $|$ No$>$}}\\
-If you specify {\bt{Yes}} you need a file {\tt weightfile} with weights for each
+If you specify {\bt{Yes}} you need a file \texttt{ weightfile} with weights for each
  site, the weights can be the following numbers 0-9 and letters A-Z,
  so you have 35 possible weights available.
  \begin{small}
@@ -240,7 +241,7 @@ If you specify {\bt{Yes}} you need a file {\tt weightfile} with weights for each
 %\item{\bt {usertree}=$<$NO $|$ TREE:treefile $|$ DISTANCE:distfile $|$ RANDOM $>$}\\
 %The default is \textbf{NO} and \migrate calculates a starting tree using a UPGMA tree that uses a very simply distance matrix between the samples and then constrains this topology to follow a coalescent. 
 %
-%If you specify {\bt TREE} you need a file {\tt intree}. In this file you have
+%If you specify {\bt TREE} you need a file \texttt{ intree}. In this file you have
 % starting trees for each locus. this option will accept trees with migration events in it
 % but they are not needed and \migrate will insert a minimal number of them. [This needs still more testing].
 %
@@ -250,11 +251,11 @@ If you specify {\bt{Yes}} you need a file {\tt weightfile} with weights for each
 %better starting trees than the automatic tree generation which uses
 %a rather unsophisticated distance method (differences).
 %
-%With the keyword \textbf{RANDOM} one can generates a random starting tree with ``coalescent time intervals''  according to the start parameters. This is generally a bad choice,  but in conjunction of many short chains and the {\bf replicate=YES:number} 
+%With the keyword \textbf{RANDOM} one can generates a random starting tree with ``coalescent time intervals''  according to the start parameters. This is generally a bad choice,  but in conjunction of many short chains and the \textbf{ replicate=YES:number} 
 %option [number is bigger than 1, see below]. This can help to search the 
 %parameter space more efficiently.
 
-\item {\bf inheritance-scalars=\{value1, value2, ....\}} 
+\item \textbf{ inheritance-scalars=\{value1, value2, ....\}} 
 The inheritance scalar is relative to the locus that is set to 1.0. If that locus is a nuclear marker and the species is diploid then all $\Theta$ are equivalent to $4N_e\mu$, if that locus is a segment of mtDNA then all $\Theta$ are equivalent to $N_e\mu$ (maternal inheritance, sex ratio 1:1). If you have 3 loci, for example in this order: a nuclear marker, a mtDNA marker, and an X-linked marker then the input for this option is:\\
 inheritance-scalars=\{1.0, 0.25, 0.75 \}\\
 This expresses all loci as $\Theta=4N_e\mu$; A second example: if you have two loci, the first is Y-chromosome segment and the second is X-linked and you would want to express all in $\Theta_Y$ then \\
@@ -263,15 +264,15 @@ or if you want to express in $\Theta_X$ then\\
 inheritance-scalars=\{0.333 1.0\}\\
 Use for the reference locus the scalar 1.0 and all other scalars relative to that.
 
-\item {\bf random-subset=$<$NO $|$ number$>$}
-\migrate can randomly subsample each population. Picking the number specified in the {\bf random-subset}. If the population sample has fewer individuals than the specified number, all samples are taken for that population.
+\item \textbf{ random-subset=$<$NO $|$ number$>$}
+\migrate can randomly subsample each population. Picking the number specified in the \textbf{ random-subset}. If the population sample has fewer individuals than the specified number, all samples are taken for that population.
 
 
-\item{\bf tipdate-file}= $<$NO $|$ YES:datefile $>$ \\
+\item\textbf{ tipdate-file}= $<$NO $|$ YES:datefile $>$ \\
 IF YOU HAVE ONLY CONTEMPORARY DATA DO NOT USE THIS OPTION.\\
-The {\tt datefile} contains sampling-dates for the individuals (the tips of the genealogy). An example is this: 
-{\tt tipdate-file=YES:datefile.bison3}\\
-The datefile format is close to the {\tt infile} format but for obvious content reasons not identical, in generalized form it looks like this:
+The \texttt{ datefile} contains sampling-dates for the individuals (the tips of the genealogy). An example is this: 
+\texttt{ tipdate-file=YES:datefile.bison3}\\
+The datefile format is close to the \texttt{ infile} format but for obvious content reasons not identical, in generalized form it looks like this:
  \begin{small}
  \begin{verbatim}
  <Number of populations> <Number of loci>  <Title>
@@ -286,7 +287,7 @@ The datefile format is close to the {\tt infile} format but for obvious content 
 ....
 \end{verbatim}
 \end{small}
-The individual names MUST match the individual names in the {\tt infile} and all names MUST be unique, this is a stringent requirement that is only needed when you use a datefile to guarantee that the right dates and sequences are matched. 
+The individual names MUST match the individual names in the \texttt{ infile} and all names MUST be unique, this is a stringent requirement that is only needed when you use a datefile to guarantee that the right dates and sequences are matched. 
 
 The date must be given as a date measured backwards in time (dual time), so if a bison died 164 BC and you are able to extrac DNA from the bones then you should specify that the bison died 2172 years ago (in 2008), \migrate will adjust so that the smallest date will be set to date zero. Here an example using the mentioned syntax:
  \begin{small}
@@ -303,15 +304,15 @@ s23040    23040
 \end{small}
 In the example the dates are the years before present, but in principle they can be any units as lon as the mutation rate per 'year' and the generation-per-year is on the same scale.
 
-\item{\bf mutationrate-per-year}= \{$<$mutationrate1$>$,$<$mutationrate2$>$,...\}  \\
+\item\textbf{ mutationrate-per-year}= \{$<$mutationrate1$>$,$<$mutationrate2$>$,...\}  \\
 For example: mutationrate-per-year=\{0.0000005\}\\
 IF YOU HAVE ONLY CONTEMPORARY DATA DO NOT USE THIS OPTION.\\
 If you do not know the mutation rate, guess and try out to estimate the mutation rate in the analysis but depending on your data this may be a taxing analysis. For the moment use the mutation rate per generation and not year, see below.
 
-\item{\bf generation-per-year}= $<$value$>$ \\
+\item\textbf{ generation-per-year}= $<$value$>$ \\
 IF YOU HAVE ONLY CONTEMPORARY DATA DO NOT USE THIS OPTION.\\
-The {\tt datefile} needs additional information about the spacing of the samples in time, the number of generations per year helps to get this spacing, but we also need the mutation rate (see above). 
-Example: {\tt generation-per-year=1.000000}. Currently the generation time setting needs further tests, a generation time of 1.0 works, but other settings may fail; for the moment just use 1.0, and translate the results in years if needed.
+The \texttt{ datefile} needs additional information about the spacing of the samples in time, the number of generations per year helps to get this spacing, but we also need the mutation rate (see above). 
+Example: \texttt{ generation-per-year=1.000000}. Currently the generation time setting needs further tests, a generation time of 1.0 works, but other settings may fail; for the moment just use 1.0, and translate the results in years if needed.
 
 \end{description}
 
@@ -322,7 +323,7 @@ Options that are used when the data are microsatellite repeat markers. \migrate 
 
 \textsl{Stepwise mutation model:}
 If the {\bt{datatype=Microsatellite}} is used, the following options have some meaning:\begin{description}
-\item{\bf{ include-unknown=$<$YES $|$ NO$>$}}\\ The default is {bf{NO}}. Alleles that are marked with a "?" are stripped from the analysis  with include-unknown=NO. Using YES leaves the "?" in the analysis, under some circumstances this might be the preferred way, but for most situations the unknowns can be safely stripped from the analysis.
+\item\textbf{{ include-unknown=$<$YES $|$ NO$>$}}\\ The default is {bf{NO}}. Alleles that are marked with a "?" are stripped from the analysis  with include-unknown=NO. Using YES leaves the "?" in the analysis, under some circumstances this might be the preferred way, but for most situations the unknowns can be safely stripped from the analysis.
  \item{\bt{micro-threshold=value}}\\
 specifies the window in which probabilities of change are calculated
 if we have allele 34 then only probabilities of a change from 34 to 35-44
@@ -337,55 +338,55 @@ Default is {\bt {micro-threshold}=10}
 \item{\bt {usertree}=$<$NO $|$  RANDOM $>$}\\
 The default is \textbf{NO} and \migrate calculates a starting tree using a UPGMA tree that uses a very simply distance matrix between the samples and then constrains this topology to follow a coalescent. 
 
- With the keyword \textbf{RANDOM} one can generates a random starting tree with ``coalescent time intervals''  according to the start parameters. This is generally a bad choice,  but in conjunction of many short chains and the {\bf replicate=YES:number} 
+ With the keyword \textbf{RANDOM} one can generates a random starting tree with ``coalescent time intervals''  according to the start parameters. This is generally a bad choice,  but in conjunction of many short chains and the \textbf{ replicate=YES:number} 
 option [number is bigger than 1, see below]. This can help to search the 
 parameter space more efficiently.
 \end{description}
 
 For these following options see under \textsl{Sequence data} above.
 \begin{description}
-\item {\bf random-subset=$<$NO $|$ number$>$}
-\item{\bf tipdate-file}= $<$NO $|$ YES:datefile $>$ 
-\item{\bf mutationrate-per-year}= \{$<$mutationrate1$>$,$<$mutationrate2$>$,...\} 
-\item{\bf generation-per-year}= $<$value$>$ 
+\item \textbf{ random-subset=$<$NO $|$ number$>$}
+\item\textbf{ tipdate-file}= $<$NO $|$ YES:datefile $>$ 
+\item\textbf{ mutationrate-per-year}= \{$<$mutationrate1$>$,$<$mutationrate2$>$,...\} 
+\item\textbf{ generation-per-year}= $<$value$>$ 
 \end{description}
 
 \textsl{Brownian motion approximation:}
 If the {\bt{datatype=Brownian}} is used, the following options have some meaning:\begin{description}
-\item{\bf{ include-unknown=$<$YES $|$ NO$>$}}\\ The default is {bf{NO}}. Alleles that are marked with a "?" are stripped from the analysis  with include-unknown=NO. Using YES leaves the "?" in the analysis, under some circumstances this might be the preferred way, but for most situations the unknowns can be safely stripped from the analysis.
+\item\textbf{{ include-unknown=$<$YES $|$ NO$>$}}\\ The default is {bf{NO}}. Alleles that are marked with a "?" are stripped from the analysis  with include-unknown=NO. Using YES leaves the "?" in the analysis, under some circumstances this might be the preferred way, but for most situations the unknowns can be safely stripped from the analysis.
 \item{\bt {usertree}=$<$NO $|$  RANDOM $>$}\\
 The default is \textbf{NO} and \migrate calculates a starting tree using a UPGMA tree that uses a very simply distance matrix between the samples and then constrains this topology to follow a coalescent. 
 
- With the keyword \textbf{RANDOM} one can generates a random starting tree with ``coalescent time intervals''  according to the start parameters. This is generally a bad choice,  but in conjunction of many short chains and the {\bf replicate=YES:number} 
+ With the keyword \textbf{RANDOM} one can generates a random starting tree with ``coalescent time intervals''  according to the start parameters. This is generally a bad choice,  but in conjunction of many short chains and the \textbf{ replicate=YES:number} 
 option [number is bigger than 1, see below]. This can help to search the 
 parameter space more efficiently.
 \end{description}
 
 For these following options see under \textsl{Sequence data} above.
 \begin{description}
-\item {\bf random-subset=$<$NO $|$ number$>$}
-\item{\bf tipdate-file}= $<$NO $|$ YES:datefile $>$ 
-\item{\bf mutationrate-per-year}= \{$<$mutationrate1$>$,$<$mutationrate2$>$,...\} 
-\item{\bf generation-per-year}= $<$value$>$ 
+\item \textbf{ random-subset=$<$NO $|$ number$>$}
+\item\textbf{ tipdate-file}= $<$NO $|$ YES:datefile $>$ 
+\item\textbf{ mutationrate-per-year}= \{$<$mutationrate1$>$,$<$mutationrate2$>$,...\} 
+\item\textbf{ generation-per-year}= $<$value$>$ 
 \end{description}
 
 \subsubsection{Allozyme data}
 \begin{description}
-\item{\bf{ include-unknown=$<$YES $|$ NO$>$}}\\ The default is {bf{NO}}. Alleles that are marked with a "?" are stripped from the analysis  with include-unknown=NO. Using YES leaves the "?" in the analysis, under some circumstances this might be the preferred way, but for most situations the unknowns can be safely stripped from the analysis.
+\item\textbf{{ include-unknown=$<$YES $|$ NO$>$}}\\ The default is {bf{NO}}. Alleles that are marked with a "?" are stripped from the analysis  with include-unknown=NO. Using YES leaves the "?" in the analysis, under some circumstances this might be the preferred way, but for most situations the unknowns can be safely stripped from the analysis.
 \item{\bt {usertree}=$<$NO $|$  RANDOM $>$}\\
 The default is \textbf{NO} and \migrate calculates a starting tree using a UPGMA tree that uses a very simply distance matrix between the samples and then constrains this topology to follow a coalescent. 
 
- With the keyword \textbf{RANDOM} one can generates a random starting tree with ``coalescent time intervals''  according to the start parameters. This is generally a bad choice,  but in conjunction of many short chains and the {\bf replicate=YES:number} 
+ With the keyword \textbf{RANDOM} one can generates a random starting tree with ``coalescent time intervals''  according to the start parameters. This is generally a bad choice,  but in conjunction of many short chains and the \textbf{ replicate=YES:number} 
 option [number is bigger than 1, see below]. This can help to search the 
 parameter space more efficiently.
 \end{description}
 
 For these following options see under \textsl{Sequence data} above.
 \begin{description}
-\item {\bf random-subset=$<$NO $|$ number$>$}
-\item{\bf tipdate-file}= $<$NO $|$ YES:datefile $>$ 
-\item{\bf mutationrate-per-year}= \{$<$mutationrate1$>$,$<$mutationrate2$>$,...\} 
-\item{\bf generation-per-year}= $<$value$>$ 
+\item \textbf{ random-subset=$<$NO $|$ number$>$}
+\item\textbf{ tipdate-file}= $<$NO $|$ YES:datefile $>$ 
+\item\textbf{ mutationrate-per-year}= \{$<$mutationrate1$>$,$<$mutationrate2$>$,...\} 
+\item\textbf{ generation-per-year}= $<$value$>$ 
 \end{description}
 
 
@@ -397,15 +398,15 @@ For these following options see under \textsl{Sequence data} above.
 %simple `one character'=`one allele' designation is not appropriate
 %for data with huge numbers of alleles.
 %If delimiter {\bt {None}} is specified the alleles are just one letter words.
-%e.g. {\tt AA AB C?} 
+%e.g. \texttt{ AA AB C?} 
 %with {\bt{delimiter=.}} this would read
-%{\tt A.A A.B C.?} but also {\tt 128.132 Rvs.Sahss}\\
+%\texttt{ A.A A.B C.?} but also \texttt{ 128.132 Rvs.Sahss}\\
 %\comment{not working yet for electrophoretic data, but of course should too} 
 %The default is {\bt{delimiter=NONE}}
 %\end{description}
-No special variables, but see {\bf Parmfile specific commands}.
+No special variables, but see \textbf{ Parmfile specific commands}.
 \subsubsection{Nucleotide polymorphism}
-Similar to {\bf sequence data}.
+Similar to \textbf{ sequence data}.
 \vskip 1cm
 \section{Input/Output formats}
 This group of options specifies input file names and various output file options. These options are somewhat depending on the analysis methods: Maximum likelihood approach (MLA, Fig. \ref{INPUTMLA}) or Bayesian Approach (BA, Fig. \ref{INPUTBA}).
@@ -416,7 +417,7 @@ The numbering in the menus are not 1,2,3,4,... because I wanted to keep the same
 
 \begin{boxedminipage}{14.5cm}
 \begin{small}
-\begin{tt}
+\ttfamily{
 \begin{verbatim}
   INPUT/OUTPUT FORMATS 
   -----------------------------------------------
@@ -442,23 +443,23 @@ The numbering in the menus are not 1,2,3,4,... because I wanted to keep the same
   Are the settings correct?
   (type Y to go back to the main menu or the letter for the entry to change)
 ===>\end{verbatim}
-\end{tt}
+}
 \end{small}
 \end{boxedminipage}
 
 \end{center}
 
-\caption{{\sf Input/Output menu of {\it Migrate}}}
+\caption{\textsf{ Input/Output menu of \textit{ Migrate}}}
 \label{INPUTBA}
 \end{figure}
 
 \subsection{Input formats}
 \begin{description}
 \item{\bt{infile=filename}}\\
-If you insist to have a datafile names other than {\tt infile}, you can change
+If you insist to have a datafile names other than \texttt{ infile}, you can change
 this here, if you do not specify anything here, it will use any file
-with name {\tt infile} present in the execution directory, if there is no
-{\tt infile} than the program will ask for the datafile and 
+with name \texttt{ infile} present in the execution directory, if there is no
+\texttt{ infile} than the program will ask for the datafile and 
 you can specify the path to it (this may be hard on Macs and Wintel machines). 
 If you use this option, do {\bt NOT} use spaces  or ``/'' or on Macs ``:''
 in your filename. The default is obviously {\bt{infile=infile}}
@@ -466,7 +467,7 @@ in your filename. The default is obviously {\bt{infile=infile}}
 \item {\bt{random-seed=$<$Auto $|$ Noauto $|$  Own:seedvalue$>$}}\\
 The random number seed guarantees that you can reproduce a run
 exactly. I you do not specify the random number seed (\bt{seed=Auto})
-the program will use the system clock. With {\bt{seed=Noauto}} the program expects to find a file named {\tt seedfile} with the random number seed.
+the program will use the system clock. With {\bt{seed=Noauto}} the program expects to find a file named \texttt{ seedfile} with the random number seed.
 With {\bt{random-seed=Own:seedvalue}} you can specify the seed value in the parmfile
 (or in the menu). \\
 Example for own seed:\\
@@ -498,18 +499,18 @@ already driven and the time, but no clue about how many speed bumps
 Verbose adds more hints (at least for me) and information.
 The default is {\bt{progress=Yes}}
 \item{\bt{print-data=$<$Yes$|$No$>$}} \\
-Print the data in the {\tt outfile}. defaults is {\bt{print-data=No}}. If you run your data for the first time trhough \migrate turn this option on, because it helps to find problems with data-reading. Especially with microsatellite data it is possible that the program runs but the loci are incorrectly read.
+Print the data in the \texttt{ outfile}. defaults is {\bt{print-data=No}}. If you run your data for the first time trhough \migrate turn this option on, because it helps to find problems with data-reading. Especially with microsatellite data it is possible that the program runs but the loci are incorrectly read.
 \item{\bt{outfile=filename}}\\
  All output is directed into this file, the default name is outfile. If you use this option, do {\bt{NOT}} use spaces  or ``/'' or on Macs ``:'' in the filename.
 The default is obviously {\bt{outfile=outfile}}
 
 \item{\bt{print-trees=$<$All $|$ None $|$ Last $|$ Best$>$ }}\\
-print genealogies into {\tt treefile}. Remember these trees contain
-migration events, {\tt treeview} \cite{page:1996} and {\tt FigTree} \cite{Rambaut:2006} can display such trees, although the migration events
-do not show on these displays, other program might crash. We have a program {\tt eventree -- ET for short} that can display all the events on the tree, the program can be downloaded from the Migrate website.
+print genealogies into \texttt{ treefile}. Remember these trees contain
+migration events, \texttt{ treeview} \cite{page:1996} and \texttt{ FigTree} \cite{Rambaut:2006} can display such trees, although the migration events
+do not show on these displays, other program might crash. We have a program \texttt{ eventree -- ET for short} that can display all the events on the tree, the program can be downloaded from the Migrate website.
 \begin{description}
 
-\item{{\bt{None}}:} {\tt treefile} is not initialized and no trees are printed, 
+\item{{\bt{None}}:} \texttt{ treefile} is not initialized and no trees are printed, 
 this is the fastest and the one I recommend.
 
 \item{{\bt{All}}:}  will print all trees (you want to do that only for ridiculously small datasets with too short chains or you have {\bt{many Gigabytes}} of free storage).
@@ -527,7 +528,7 @@ Records the output to the screen into a file when turned on, otherwise the scree
 Records the frequencies of migration events (with MIGRATIONEVENTSONLY) or of all migration events and coalescence events (ALL) over time using \textsl{binsize}, the binsize is not optimal because you need to fix it before you know the range of times. A value 10 to 20$\times$ smaller than the average population size $\Theta$ is a good start. The output is a histogram of frequencies for each parameter, and a summary table of the average frequencies and a table of the frequency of the location of the root of the genealogy.
 
 \item{\bt{skyline=$<$NO $|$ YES:binsize:skylinefilename$>$}}\\
-{\bf If you have only contemporary data, do not trust this output.}
+\textbf{ If you have only contemporary data, do not trust this output.}
 This options depends on the mig-histogram option, it uses the same binsize and needs some of its data structures, therefore do turn on the mig-histogram=ALL.... before attempt to use this option. With this option \migrate will present the changes of parameters through time, this method uses a different approach than \beast and is may be more crude but can represent migration parameters and can summarize over multiple loci.
 \end{description}
 
@@ -539,7 +540,7 @@ The Parameter menu allows to change the meaning of some of the parameters and al
 
 \begin{boxedminipage}{14.5cm}
 \begin{small}
-\begin{tt}
+\ttfamily{
 \begin{verbatim}
   PARAMETERS
   ---------------------------
@@ -561,11 +562,11 @@ The Parameter menu allows to change the meaning of some of the parameters and al
   (Type Y to go back to the main menu or the letter for an entry to change)
 ===>
 \end{verbatim}
-\end{tt}
+}
 \end{small}
 \end{boxedminipage}
 \end{center}
-\caption{{\sf `Start value for the parameter' menu of {\it Migrate}}}
+\caption{\textsf{ `Start value for the parameter' menu of \textit{ Migrate}}}
 \label{STARTM}
 \end{figure}
 
@@ -591,25 +592,25 @@ The menu option \textsl{Use a simple estimate of migration rate as start?} allow
 The 'prior' option is the default, it is set to 10 (=10\% of the prior value), this seems to be OK for many data sets, but this depends strongly on your prior, for example if you set an expoential prior with bounds at $0.0$ and $10^10$ then start value may be crazy high for your data. Setting prior ranges very wide is usually a bad idea.
 The values for {\bt{Own}} are given in terms of $4N_em$ which is 4 $\times$ effective population size $\times$ migration rate per generation.
 The default is \bt{migration=FST}. 
-The \bt{migration matrix} is a $n$ by $n$ table with {\bf -} on the diagonal and can look 
+The \bt{migration matrix} is a $n$ by $n$ table with \textbf{ -} on the diagonal and can look 
 like this for four populations
-{\tt migration=OWN:\{ - 1.0 1.1 1.2 0.9 - 0.8 0.7 2.1 2.2 - 2.3 1.4 1.5 1.6 - \}}\\
+\texttt{ migration=OWN:\{ - 1.0 1.1 1.2 0.9 - 0.8 0.7 2.1 2.2 - 2.3 1.4 1.5 1.6 - \}}\\
 or like this
-\begin{tt}
+\ttfamily{
 \begin{verbatim}
 migration=OWN:{ -   1.0 1.1 1.2 
                0.9 -   0.8 0.7 
                2.1 2.2 -   2.3
                1.4 1.5 1.6 - }
 \end{verbatim}
-\end{tt}
+}
 See note on start values above under $\Theta$.}
 \end{description}
 
 \subsection*{Gene flow parameter and mutation rate variation among loci}
 The gene flow parameter can be presented as $xNm$ or $M$. $M$ is the mutation scaled immigration rate $m/\mu$ that represents the importance of variability brought into the population by immigration compared with the variability created by mutation, $m$ is the fraction of the new immigrants of the population per generation. $xNm$ represents the number of immigrant per generation scaled by $x$ where $x$ depends on the data: $x=1$ for haploid, uniparental inheritance (mtDNA, Y), $x=2$ for haploids (bacteria), $x=3$ for the X chromosome in the mammal X-Y systems, $x=4$ for diploid organisms (nuclear DNA), etc. 
 \begin{description}
-\item {\bf use-M=$<$YES $|$ NO$>$}
+\item \textbf{ use-M=$<$YES $|$ NO$>$}
 
 
 %CONSTANT | ESTIMATE | GAMMA:alpha | OWN:loci: rate1 rate2 ... rate_loci
@@ -642,11 +643,11 @@ The menu presents you with these choices:
 of the mutation rate of each locus proposing new mutation rate values from the prior distribution.
 For almost all dataset do not use this! Because you will need dated samples to estimate the mutation rate. 
 %\textsl{Options for both analyses}\\
-The options {\bf Varying} allows you to input your own mutation rate modifier. \migrate is modifying your values so that the average rate will be 1.0.
+The options \textbf{ Varying} allows you to input your own mutation rate modifier. \migrate is modifying your values so that the average rate will be 1.0.
 
-The option {\bf Relative} estimates a rough rate modifier for the mutation rate using the data. For sequence data the Watterson estimator is used to get relative rates, this takes into account the different numbers in the sample. For microsatellite and allozyme the allele counts are used to generate a rough value of the rate for each locus. These rates average to 1.0.
+The option \textbf{ Relative} estimates a rough rate modifier for the mutation rate using the data. For sequence data the Watterson estimator is used to get relative rates, this takes into account the different numbers in the sample. For microsatellite and allozyme the allele counts are used to generate a rough value of the rate for each locus. These rates average to 1.0.
 
-With {\bf Constant} no special calculations are done. The summarizing step is simply finding the 
+With \textbf{ Constant} no special calculations are done. The summarizing step is simply finding the 
 best parameters by maximizing the sum of the log-likelihoods of each locus.
 The default is {\bt{mutation=Constant}}
 
@@ -655,7 +656,7 @@ The default is {\bt{mutation=Constant}}
 
 
 %\subsection{${\rm F_{ST}}$ calculation (for Start value only)} 
-%{\it Migrate} is using the ${\rm F_{ST}}$ calculation only to generate 
+%\textit{ Migrate} is using the ${\rm F_{ST}}$ calculation only to generate 
 %starting values for the MCMC runs, when you did not wnat to give your guess-values for the parameters.
 %With two population and one locus we can only calculate 3 quantities from
 %the data for ${\rm F_{ST}}$: the homozygosity within each population and between them. Therefore we only can estimate 3 parameters, either both populations
@@ -692,8 +693,8 @@ The migration matrix can consist of connections that are
 \item m: mean value of either $\Theta$ or $\M$.
 \item s: symmetric migration [symmetric $\M$ not $xNm$]
 \item S: symmetric migration [symmetric $\xi Nm$ not $\M$]
-\item c: constant value (together with  {\tt migration=OWN...} 
-or {\tt theta=OWN...})
+\item c: constant value (together with  \texttt{ migration=OWN...} 
+or \texttt{ theta=OWN...})
 \item * or $x$: no restriction
 \end{itemize}
 (the $\xi$ (xi) means a multiplier: 4 for diploid nuclear markers, 2 for haploid markers, 1 for haploid markers transmitted only through one sex, such as mtDNA and Y chromosomes)
@@ -734,7 +735,7 @@ populations. This coefficient should be in the limit the same as the one calcula
 There is no requirement that the distances from i to j are the same as from j to i, although interpretation might be difficult with
 an unequal distance matrix. the default filename for this distance file is \textsl{geofile}.
 
-Example {\it geofile}\\
+Example \textit{ geofile}\\
 \begin{verbatim}
      3
 Ermatingen0.0 10.4 12.4 
@@ -752,7 +753,7 @@ This section is the key to good results and you should not just use the defaults
 
 \begin{boxedminipage}{6in}
 \begin{small}
-\begin{tt}
+\ttfamily{
 \begin{verbatim}
   SEARCH STRATEGY
 
@@ -780,11 +781,11 @@ This section is the key to good results and you should not just use the defaults
   (Type Y to go back to the main menu or the number for a menu to change)
 ===>
 \end{verbatim}
-\end{tt}
+}
 \end{small}
 \end{boxedminipage}
 \end{center}
-\caption{{\sf `Search strategy' menu with the Maxim likelihood approach}}
+\caption{\textsf{ `Search strategy' menu with the Maxim likelihood approach}}
 \label{SEARCHMA}
 \end{figure}
 
@@ -833,18 +834,18 @@ inherits the last genealogy of the last run, which was created with the old para
 in each chain are discarded. 
 The default is {\bt{burn-in=10000}}.
 
-\item{\bf Combine chains for estimates}
+\item\textbf{ Combine chains for estimates}
 The use of this option is recommended for difficult
 data sets. It allows to combine multiple chains for the parameter 
-estimates when you use {\bf replicate=YES:LongChains}. 
-With  {\bf replicate=YES:number} where number is, well, 
+estimates when you use \textbf{ replicate=YES:LongChains}. 
+With  \textbf{ replicate=YES:number} where number is, well, 
 a number bigger than 1. (e.g. replicate=Yes:5), you run the program ``number'' times and the results of their last chains are combined,
 The method of combination of chains is the same as in \cite{kuhner:1995:eep}
 and is based on the work by \cite{geyer1991-t}. The LongChain option does not need much more time than the single chain option, but the full replication needs
 exactly ``number'' times a normal run. But is sampling the search space
 much better than any other option, I use this often in conjunction with
 random starting trees (randomtree=YES). 
-\item{\bf Heating (\bf heating=$<$NO $|$ YES $|$ ADAPTIVE $<$:waitnumber:\{cold,warm,hot,boil,....\}$>$}\\
+\item\textbf{ Heating (heating=$<$NO $|$ YES $|$ ADAPTIVE $<$:waitnumber:\{cold,warm,hot,boil,....\}$>$}\\
 This allows for running multiple chains and swap between them, when 
 these chains are run at different temperatures, 
 the ``hotter'' chains explore more genealogy space than the 
@@ -869,21 +870,21 @@ If you use a STATIC heating scheme then you need to experiment a little because 
 chains swap once in a while, but not too often and certainly more often
 than never. The swapping seems to depend on how good the data describes a 
 given genealogy. I would start with 4 chains and 
-temperatures that are {\bf \{1. 1.5 3.0 10000.0\}}. 
+temperatures that are \textbf{ \{1. 1.5 3.0 10000.0\}}. 
 The temperatures are ordered 
-from cold to boiling, the coldest temperature {\bf MUST} be 1 (one).
-The default for the heating option is {\bf heating=NO}. If you use
+from cold to boiling, the coldest temperature \textbf{ MUST} be 1 (one).
+The default for the heating option is \textbf{ heating=NO}. If you use
 this option sampling will be at least 4 times slower, except 
 if you have a multiprocessor machine and a POSIX compliant thread-library
 (often called with slight variations but containing word parts such 
 as pthread, thread, linuxthread), 
 then you can compile the program using ``make thread'',  this will improve speed somewhat, but lately I do not gain more than 170\% CPU usage out of this. It is probably easier and faster to use all cores on new computers using the parallel version of \migrate.
 
-The {\bf waitnumber} is the number of trees to wait before the differently heated chains are check whether to swap or not. I normally use 1. I have little experience whether, say, using 10 improves mixing over using 1.
+The \textbf{ waitnumber} is the number of trees to wait before the differently heated chains are check whether to swap or not. I normally use 1. I have little experience whether, say, using 10 improves mixing over using 1.
 \end{description}
 
 \subsubsection{Obscure options}
-If you are not experienced with MCMC or run {\it Migrate} for the first, 
+If you are not experienced with MCMC or run \textit{ Migrate} for the first, 
 second, ... time, do not bother about the options here.
 \begin{description}
 \item{\bt{Sample at least a fraction of new genealogies? ( moving-steps=$<$Yes:ratio $|$ No $>$)}}\\
@@ -910,9 +911,9 @@ is not improving drastically between chains: (a) it found the maximum likelihood
 using a smaller value than the default {\bt{long-chain-epsilon=100.00}}
 for example a value of 1.0 would guarantee that the sampler keeps on 
 sampling new long chains as long as that log-likelihood-difference drops below 1.0. In some cases this will never happen and the program will not stop.
-\item{ \bf Gelman's convergence criterium} If you specify ``Yes'' then 
+\item{ \textbf{Gelman's convergence criterium}} If you specify ``Yes'' then 
 the number of last chains get extended until the convergence criterium
-of Gelman is satisfied (the ratio should be smaller than 1.2 for {\bf all} parameters. This can take a very long time. [In the parallel version this fails, turn it off there [this is a bug, but I had not time to find and fix it]).
+of Gelman is satisfied (the ratio should be smaller than 1.2 for \textbf{ all} parameters. This can take a very long time. [In the parallel version this fails, turn it off there [this is a bug, but I had not time to find and fix it]).
 \end{description}
 
 \subsection{Bayesian method}
@@ -922,7 +923,7 @@ of Gelman is satisfied (the ratio should be smaller than 1.2 for {\bf all} param
 
 \begin{boxedminipage}{6in}
 \begin{small}
-\begin{tt}
+\ttfamily{
 \begin{verbatim}
  SEARCH STRATEGY
 
@@ -949,11 +950,11 @@ of Gelman is satisfied (the ratio should be smaller than 1.2 for {\bf all} param
   (Type Y to go back to the main menu or the number for a menu to change)
 ===>
 \end{verbatim}
-\end{tt}
+}
 \end{small}
 \end{boxedminipage}
 \end{center}
-\caption{{\sf `Search strategy' menu with the Bayesian approach}}
+\caption{\textsf{ `Search strategy' menu with the Bayesian approach}}
 \label{SEARCHBA}
 \end{figure}
 \begin{description}
@@ -965,7 +966,7 @@ this file contains the raw histogram for all parameters and all loci and their c
 
 \begin{boxedminipage}{6in}
 \begin{small}
-\begin{tt}
+\ttfamily{
 \begin{verbatim}
 # Raw data for the histogram of the posterior probabilities for all parameters
 # and loci  produced by the program migrate-n 2.0.3 
@@ -991,11 +992,11 @@ this file contains the raw histogram for all parameters and all loci and their c
 1 1 1 1 0.009495 20537 0.102676
 1 1 1 1 0.010495 19504 0.097511
 \end{verbatim}
-\end{tt}
+}
 \end{small}
 \end{boxedminipage}
 \end{center}
-\caption{{\sf First few lines of a bayesfile: the header explains the columns}}
+\caption{\textsf{ First few lines of a bayesfile: the header explains the columns}}
 \label{BAYESFILE}
 \end{figure}
 
@@ -1008,7 +1009,7 @@ this file contains the raw histogram for all parameters and all loci and their c
 
 \begin{boxedminipage}{6in}
 \begin{tiny}
-\begin{tt}
+\ttfamily{
 \begin{verbatim}
 # Migrate debug 3.0 (Peter Beerli, (c) 2008)
 # Raw results from Bayesian inference: these values can be used to generate
@@ -1061,26 +1062,26 @@ this file contains the raw histogram for all parameters and all loci and their c
 200     1       1       -22367.961876   -22622.328216   254.366340      -17.034386      95      0.093002        0.00379 ...
 300     1       1       -22368.867271   -22618.681322   249.814051      -17.034386      95      0.092687        0.00460 ...
 \end{verbatim}
-\end{tt}
+}
 \end{tiny}
 \end{boxedminipage}
 \end{center}
-\caption{{\sf First few lines of a bayesallfile: the header explains the columns, the data section is truncated at the right and bottom}}
+\caption{\textsf{ First few lines of a bayesallfile: the header explains the columns, the data section is truncated at the right and bottom}}
 \label{BAYESALLFILE}
 \end{figure}
 
-\item{\bt{Number of bins of posterior ({\bf bayes-posteriorbins=$<$thetabins Mbins $<$ratebins$>$$>$)}}}\\
+\item{\bt{Number of bins of posterior (\textbf{ bayes-posteriorbins=$<$thetabins Mbins $<$ratebins$>$$>$)}}}\\
 The number of bins for the posterior needs to be pre-specified (to save memory). The default for $\Theta$, $M$ is 200 bins.
 This number is probably to small if the range of the prior distribution is very large. If the PDF histograms look course rerun after increasing the binsizes. The ratebins are used when the mutation rate modifier with many loci is estimated in the Bayesian analysis,
 this may sometimes fail, because there is little information about rate differences among loci in some datasets.
 
-\item{\bt{Plotting bins of posterior ({\bf bayes-posteriormaxtype=$<$TOTAL $|$ P100$|$ P99$|$ MAXP99 $>$)}}}\\
-The posterior distribution often covers only a short range of the prior distribution, therefore displaying the {\bf TOTAL} range of the prior distribution is often not advised, the P99 presents 99\% of the posterior distribution, cutting of 1\% of the posterior, this is a good way to visualize posterior distributions with very long (thin) right tails. P100 takes 99.99\% of the values and excludes strange outliers. MAXP99 is cutting of at 99\% credibility, but using the parameter with the highest value  for $\Theta$, and $M$, in principle this forces the same scale in the output for the parameters (this needs more testing because I most often use P100).
+\item{\bt{Plotting bins of posterior (\textbf{ bayes-posteriormaxtype=$<$TOTAL $|$ P100$|$ P99$|$ MAXP99 $>$)}}}\\
+The posterior distribution often covers only a short range of the prior distribution, therefore displaying the \textbf{ TOTAL} range of the prior distribution is often not advised, the P99 presents 99\% of the posterior distribution, cutting of 1\% of the posterior, this is a good way to visualize posterior distributions with very long (thin) right tails. P100 takes 99.99\% of the values and excludes strange outliers. MAXP99 is cutting of at 99\% credibility, but using the parameter with the highest value  for $\Theta$, and $M$, in principle this forces the same scale in the output for the parameters (this needs more testing because I most often use P100).
 
-\item{\bf Frequency of tree updates versus parameter updates  (bayes-updatefreq=$<$ value $>$)}\\
+\item\textbf{ Frequency of tree updates versus parameter updates  (bayes-updatefreq=$<$ value $>$)}\\
 The \textsl{value} specifies the ratio of genealogy updates and parameter updates, 0.5 means that the genealogy is updated roughly every second time, and one of the parameters is updated every second time. A value of 1.0 means that the parameters are never updated, A value of 0.0 is not advised because the genealogy does not adjust the migration events and so does not really test the parameter distribution for a specific tree.
 
-\item{\bf Proposal distribution\\
+\item\textbf{ Proposal distribution\\
  bayes-posterior=$<$ $<$ THETA $|$ MIG $|$ RATE $>$ $<$ SLICE $|$ METROPOLIS $>$ $>$)}\\
 There are two ways the generate posterior distributions: SLICE and METROPOLIS. METROPOLIS is using the standard Metropolis-Hastings algorithm that proposes a new state not taking into account the data and then accepting or rejecting using the fit if the data to the old and new state. For some data the rejection rate is very high and many computer cycles are wasted because the MCMC chain does not move. SLICE sampling uses the current posterior distribution (taking into account the data) to generate a new state, every new state is compatible with the data, therefore the acceptance ratio is always 1.0. This comes at a price because the calculations are more demanding than the MH algorithm, and therefore may be slower. On data with lots of information SLICE sampling is great, but fails with poor data.
 SLICE is the default in \migrate.
@@ -1093,7 +1094,7 @@ bayes-proposals= RATE SLICE Sampler
 \end{verbatim}
 \end{small}
 
-\item{\bf Prior distribution\\
+\item\textbf{ Prior distribution\\
  bayes-priors=$<$ $<$ THETA $|$ MIG $|$ RATE $>$ $<$ PRIORSPECIFICATION $>$ $>$)}\\
 There are several prior distribution available, but the list is still short. 
 For each prior distribution you need to specify additional parameters:
@@ -1115,10 +1116,10 @@ bayes-priors= MIG WEXPPRIOR: 0.000000 500.000000 1000.000000 100.000000
 bayes-priors= RATE UNIFORMPRIOR: 0.010000 100.000000 5.000000 
 \end{verbatim}
 \end{small}
-\item{\bt{Number of long chains to run? ({\bf long-chains=$<$value$>$)}}}\\
+\item{\bt{Number of long chains to run? (\textbf{ long-chains=$<$value$>$)}}}\\
 Use 1 long chain because multiple long chains will do little to help the analysis, if you want to combine over replicated runs use the replicate option.
 
-\item{\bt{Sampling increment? ({\bf long-inc=$<$value$>$)}}}\\
+\item{\bt{Sampling increment? (\textbf{ long-inc=$<$value$>$)}}}\\
 Samples are taken every  \textsl{value} cycle, the default is 20. 
 
 \item{\bt{Number of recorded genealogies in chains? (long-steps=value)}}\\
@@ -1129,17 +1130,17 @@ This is short for many datasets.
 (burn-in=value)}}\\
 The chain is not equilibrated at the beginning of the run, and we discard those aberrant values and trees. The default is {\bt{burn-in=10000}}.
 
-\item{\bf Combine chains for estimates}
+\item\textbf{ Combine chains for estimates}
 The use of this option is recommended for difficult
 data sets. It allows to combine multiple chains for the parameter 
-estimates when you use {\bf replicate=YES:number}; where the number is bigger than 1. (e.g. replicate=Yes:5). 
+estimates when you use \textbf{ replicate=YES:number}; where the number is bigger than 1. (e.g. replicate=Yes:5). 
 You run the program ``number'' times and the results are combined (similar to MrBayes).
-The option  {\bf replicate=YES:number} works for both Bayesian inference and Maximum Likelihood. The work is number times more than without replication.
-For ML there is another option:  {\bf replicate=YES:LongChains} that allows the combination of long chains only, this is the same method as used by  \cite{kuhner:1995:eep} and is based on the work by \cite{geyer1991-t}. The LongChain option does not need much more time than the single chain option.
+The option  \textbf{ replicate=YES:number} works for both Bayesian inference and Maximum Likelihood. The work is number times more than without replication.
+For ML there is another option:  \textbf{ replicate=YES:LongChains} that allows the combination of long chains only, this is the same method as used by  \cite{kuhner:1995:eep} and is based on the work by \cite{geyer1991-t}. The LongChain option does not need much more time than the single chain option.
 
 Replication allows a better sampling of the search space than the single chain. in particular when used on parallel cluster computers. I use this often in conjunction with random starting trees (randomtree=YES). 
 
-\item{\bf Heating  (heating=$<$NO $|$ YES $|$ ADAPTIVE $<$:waitnumber:\{cold,warm,hot,boil,....\}$>$}\\
+\item\textbf{ Heating  (heating=$<$NO $|$ YES $|$ ADAPTIVE $<$:waitnumber:\{cold,warm,hot,boil,....\}$>$}\\
 This allows for running multiple chains and swap between them, when 
 these chains are run at different temperatures, 
 the ``hotter'' chains explore more genealogy space than the 
@@ -1164,22 +1165,22 @@ If you use a STATIC heating scheme then you need to experiment a little because 
 chains swap once in a while, but not too often and certainly more often
 than never. The swapping seems to depend on how good the data describes a 
 given genealogy. I would start with 4 chains and 
-temperatures that are {\bf \{1. 1.5 3.0 10000.0\}}. 
+temperatures that are \textbf{ \{1. 1.5 3.0 10000.0\}}. 
 The temperatures are ordered 
-from cold to boiling, the coldest temperature {\bf MUST} be 1 (one).
-The default for the heating option is {\bf heating=NO}. If you use
+from cold to boiling, the coldest temperature \textbf{ MUST} be 1 (one).
+The default for the heating option is \textbf{ heating=NO}. If you use
 this option sampling will be at least 4 times slower, except 
 if you have a multiprocessor machine and a POSIX compliant thread-library
 (often called with slight variations but containing word parts such 
 as pthread, thread, linuxthread), 
 then you can compile the program using ``make thread'',  this will improve speed somewhat, but lately I do not gain more than 170\% CPU usage out of this. It is probably easier and faster to use all cores on new computers using the parallel version of \migrate.
 
-The {\bf waitnumber} is the number of trees to wait before the differently heated chains are check whether to swap or not. I normally use 1. I have little experience whether, say, using 10 improves mixing over using 1.
+The \textbf{ waitnumber} is the number of trees to wait before the differently heated chains are check whether to swap or not. I normally use 1. I have little experience whether, say, using 10 improves mixing over using 1.
 
-\item{ \bf Sampling at least fraction of new genealogies (moving-steps=$<$NO $|$ YES:value $>$)}
+\item{\textbf{Sampling at least fraction of new genealogies (moving-steps=$<$NO $|$ YES:value $>$)}}
 This allows to specify that a minimum number of different genealogies need to be sampled, it is expressed as the ratio of sampled genealogies. If the frequency is not reached at the end of the specified number of samples, \migrate will continue until the ratio is satisfied, with high numbers the program may run forever. I rarely use this option.
  
-\item{ \bf Convergence diagnostic for replicates (gelman-convergence=$<$ NO $|$ YES:$<$Sum $|$ Pairs $>$ $>$}
+\item{ \textbf{Convergence diagnostic for replicates (gelman-convergence=$<$ NO $|$ YES:$<$Sum $|$ Pairs $>$ $>$}}
 This collects information about the convergence rate of two replicated chains (use two or more replicates). \textsl{Sum} reports the an average value over all whereas \textsl{Pairs} using the pairs of replicates to. Version 3.0 has some difficulties with this option and I hope to fix this in the next minor release, but on some machine and under some conditions the diagnostic fails.
  
 \end{description}
@@ -1214,7 +1215,7 @@ The default is {\bt{popnmlength=100}}
 \item{\bt{allelenmlength=number}}\\
 This is only used in the infinite allele case.
 Length of an allele name, the default should cover even strange
-lab-jargons like {\tt Rvf} or {\tt sahss} ({\it Rana ridibunda} very fast, {\it Rana saharica} super slow)
+lab-jargons like \texttt{ Rvf} or \texttt{ sahss} (\textit{ Rana ridibunda} very fast, \textit{ Rana saharica} super slow)
 The default is {\bt{allelenmlength=6}}
 \end{description}
 \end{description}

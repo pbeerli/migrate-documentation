@@ -1,3 +1,4 @@
+% !TEX root = migratedoc.tex
 \chapter{Data models}
 
 \myabstract{A short overview of the different datatypes and how multiple loci are summarized.}
@@ -10,7 +11,7 @@ that every
 mutation will 
 result in a new 
 allele, there is no back mutation (Fig. \ref{EPFIG}). This model is used in all current implementations of electrophoretic data analyses packages (Biosys-1, GDA among others)
-and perhaps is appropriate for this kind of data. {\it Migrate} is calculating the parameters for 
+and perhaps is appropriate for this kind of data. \migrate is calculating the parameters for 
 each locus independently and summarizes at the end taking the likelihood surfaces or Posterior distributions of each locus into account.
 \begin{figure}[thb]
 \begin{center}
@@ -55,8 +56,8 @@ estimation is several times faster. This is a crude approximation that has some 
  
 \section{DNA/RNA model}
 \subsection{Sequence model}
-Migrate implements the sequence model of Felsenstein (1984)  available in {\tt dnaml} (PHYLIP 4.0, Felsenstein 1997)(Fig. \ref{SEQFIG}). The transition probabilities were published by Kishino and Hasegawa (1989).  {\it Migrate} does not allow for recombination within a locus and therefore may over-estimate variability because of recombination, but this bias is not explored well, if in doubt I suggest to try to run \migrate, simulated high recombination rate data leads to difficulties with convergence. Applications of recombination tests beforehand may work well, but most of these recombination recognition program use the 4-gamete test that is based on the infinite sites model and therefore will overestimate the importance of recombination.\\
-Like {\tt dnaml}, {\it Migrate} also allows for different evolutionary rates, mutation categories and autocorrelation, although
+Migrate implements the sequence model of Felsenstein (1984)  available in {\texttt{dnaml}} (PHYLIP 4.0, Felsenstein 1997)(Fig. \ref{SEQFIG}). The transition probabilities were published by Kishino and Hasegawa (1989).  {\migrate} does not allow for recombination within a locus and therefore may over-estimate variability because of recombination, but this bias is not explored well, if in doubt I suggest to try to run \migrate, simulated high recombination rate data leads to difficulties with convergence. Applications of recombination tests beforehand may work well, but most of these recombination recognition program use the 4-gamete test that is based on the infinite sites model and therefore will overestimate the importance of recombination.\\
+Like {\texttt{dnaml}}, {\migrate} also allows for different evolutionary rates, mutation categories and autocorrelation, although
 any use of these additional features can slow done to program to a crawl, but this may change
 in the future as computers double their speed roughly every 2 years.
 \begin{figure}[b]
@@ -112,7 +113,7 @@ Mutation rate among loci
 \end{verbatim}
 \end{minipage}
 \end{center}
-The {\bf Constant} assumption forces each locus to have the same identical mutation rate. Try this first, because it is the least complicated and most often gives fine results. The {\bf Estimate} is the most difficult and needs dated samples, without sample dates do not use this option.
+The {\textbf{Constant}} assumption forces each locus to have the same identical mutation rate. Try this first, because it is the least complicated and most often gives fine results. The {\textbf{Estimate}} is the most difficult and needs dated samples, without sample dates do not use this option.
 %one and may often fail, because your data does not contain many loci, or the run has some some loci that did not converge well. With Maximum likelihood this option tries to fit a gamma distribution with a parameter alpha assuming that there is a mean mutation rate for all loci with a rate modifier with shape parameter $\alpha>0$ and $\beta = 1.0$. This results in allowing for variation among loci due to mutation. This often is very difficult to run to convergence. Bayesian inference tries to estimate the rate modifier for each locus, but this seems to work only when information about the dates of the samples is present, and even then it may fail [this needs more work]. 
-The last two options, {\bf Varying and Relative}, are probably the best ones to try if you really need variable mutation rates. When you know the relative differences of mutation rates in your data, you can specify them. Alternatively, let \migrate estimate the relative mutation rate using your data. For sequences \migrate calculates a simple Watterson's effective population size estimate over all samples and for each locus and then uses that to calculate a relative mutation rate. With microsatellites and allozyme data \migrate counts the number of alleles and uses those as a measure of relative mutation rates. The mean of these rates is 1.0.
+The last two options, {\textbf{Varying and Relative}}, are probably the best ones to try if you really need variable mutation rates. When you know the relative differences of mutation rates in your data, you can specify them. Alternatively, let \migrate estimate the relative mutation rate using your data. For sequences \migrate calculates a simple Watterson's effective population size estimate over all samples and for each locus and then uses that to calculate a relative mutation rate. With microsatellites and allozyme data \migrate counts the number of alleles and uses those as a measure of relative mutation rates. The mean of these rates is 1.0.
 \newpage
